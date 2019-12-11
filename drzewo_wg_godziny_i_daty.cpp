@@ -54,34 +54,41 @@ Prowadzacy* ZnajdzProwadzacegoRekurencyjnie (Prowadzacy* pGlowaListyProwadzacych
 // if (PoczatekZajec > lewo->PoczatekZajec)
 // lewo->pLewy
 // else lewo->pPrawy i to samo dla drugiej strony?
-Zajecia* DodajZajeciaProwadzacemu (Zajecia *pKorzen, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string Grupa, string przedmiot){
+Zajecia* DodajZajeciaProwadzacemu (Zajecia* pKorzen, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot){
   if (not pKorzen)
   {
     Zajecia * temp = new Zajecia;
-    temp->PoczatekZajec = PoczatekZajec;
+    temp->PoczatekZajec.Godzinka = PoczatekZajec.Godzinka;
+    temp->PoczatekZajec.Minuta = PoczatekZajec.Minuta;
     temp->DzienZajec = DzienZajec;
+    temp->KoniecZajec.Godzinka = KoniecZajec.Godzinka;
+    temp->KoniecZajec.Minuta = KoniecZajec.Minuta;
+    temp->Grupa = grupa;
+    temp->Przedmiot = przedmiot;
+    //temp->dla wszystkich?
     temp->pLewy = temp->pPrawy = nullptr;
     return temp;
   }
   auto Prawo = pKorzen->pPrawy;
   auto Lewo = pKorzen->pLewy;
+  //posortowac wg. minut
   if(DzienZajec > (pKorzen->DzienZajec))
     {
-        if(PoczatekZajec.Godzinka > (pKorzen->PoczatekZajec.Godzinka))
+        if(PoczatekZajec.Godzinka and PoczatekZajec.Minuta > (pKorzen->PoczatekZajec.Godzinka and pKorzen->PoczatekZajec.Minuta))
         {
-            Prawo->pPrawy = DodajZajeciaProwadzacemu(Prawo->pPrawy, PoczatekZajec, KoniecZajec, DzienZajec, Grupa, przedmiot);
+            Prawo->pPrawy = DodajZajeciaProwadzacemu(Prawo->pPrawy, PoczatekZajec, KoniecZajec, DzienZajec, grupa, przedmiot);
         }
         else
-            Prawo->pLewy = DodajZajeciaProwadzacemu(Prawo->pLewy, PoczatekZajec, KoniecZajec, DzienZajec, Grupa, przedmiot);
+            Prawo->pLewy = DodajZajeciaProwadzacemu(Prawo->pLewy, PoczatekZajec, KoniecZajec, DzienZajec, grupa, przedmiot);
     }
   else if (DzienZajec <= (pKorzen->DzienZajec))
     {
-      if(PoczatekZajec.Godzinka <= (pKorzen->PoczatekZajec.Godzinka))
+      if(PoczatekZajec.Godzinka and PoczatekZajec.Minuta <= (pKorzen->PoczatekZajec.Godzinka and pKorzen->PoczatekZajec.Minuta))
       {
-          Lewo->pLewy = DodajZajeciaProwadzacemu(Lewo->pLewy, PoczatekZajec, KoniecZajec, DzienZajec, Grupa, przedmiot);
+          Lewo->pLewy = DodajZajeciaProwadzacemu(Lewo->pLewy, PoczatekZajec, KoniecZajec, DzienZajec, grupa, przedmiot);
       }
       else
-          Lewo->pPrawy = DodajZajeciaProwadzacemu(Lewo->pPrawy, PoczatekZajec, KoniecZajec, DzienZajec, Grupa, przedmiot);
+          Lewo->pPrawy = DodajZajeciaProwadzacemu(Lewo->pPrawy, PoczatekZajec, KoniecZajec, DzienZajec, grupa, przedmiot);
     }
   return pKorzen;
 }
@@ -90,15 +97,15 @@ void DodajProwadzacegoNaPoczatek (Prowadzacy *& pGlowaListyProwadzacych, Zajecia
   //jeśli nie istnieje to dodaj do listy
  if (not pGlowaListyProwadzacych)
      pGlowaListyProwadzacych = new Prowadzacy {nazwisko, nullptr, pGlowaListyZajec};
- //dodaj na poczatek listy tak aby byl tylko jeden prowadzacy przedmioty
+ //dodaj na poczatek listy tak aby byl tylko jeden o takim samym nazwisku prowadzacy przedmioty
 else if (ZnajdzProwadzacegoRekurencyjnie(pGlowaListyProwadzacych, nazwisko) == nullptr)
         pGlowaListyProwadzacych = new Prowadzacy {nazwisko, pGlowaListyProwadzacych, pGlowaListyZajec};
 }
 
-/** wypisz posortowane drzewo zajec wg. dnia i godziny */
+/** wypisz posortowane drzewo zajec wg. dnia i godziny dla każdego prowadzącego*/
 //inorder traversal
 //poprawic wypisywanie
-void WypiszZajeciaProwadzacego(Zajecia * pKorzen){
+void WypiszZajeciaProwadzacego(Zajecia* pKorzen){
     if (not pKorzen)
     {
         return;
@@ -106,7 +113,6 @@ void WypiszZajeciaProwadzacego(Zajecia * pKorzen){
     WypiszZajeciaProwadzacego(pKorzen->pLewy);
       cout<<pKorzen;
     WypiszZajeciaProwadzacego(pKorzen->pPrawy);
-
 }
 
 void UsunWszystko(){

@@ -110,8 +110,11 @@ void WypiszZajeciaProwadzacego(Zajecia* pKorzen){
     {
         return;
     }
+    //jak wypisac enum????
     WypiszZajeciaProwadzacego(pKorzen->pLewy);
-      cout<<pKorzen;
+    cout<<pKorzen->PoczatekZajec.Godzinka<<":"<<pKorzen->PoczatekZajec.Minuta<<
+          "-"<<pKorzen->KoniecZajec.Godzinka<<":"<<pKorzen->KoniecZajec.Minuta<<
+          " "<<" "<<pKorzen->Grupa<<" "<<pKorzen->Przedmiot<<endl;
     WypiszZajeciaProwadzacego(pKorzen->pPrawy);
 }
 

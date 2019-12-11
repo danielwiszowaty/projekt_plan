@@ -1,4 +1,4 @@
-# Projekt Plan
+Projekt Plan
 
 W pliku zawarte są dane zajęć w następującym formacie:
 <godzina rozpoczęcia>-<godzina zakończenia> <dzień> <grupa> <prowadzący> <przedmiot>

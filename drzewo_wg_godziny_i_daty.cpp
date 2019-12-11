@@ -104,7 +104,7 @@ void WypiszZajeciaProwadzacego(Zajecia * pKorzen){
         return;
     }
     WypiszZajeciaProwadzacego(pKorzen->pLewy);
-      cout<<pKorzen-><<" ";
+      cout<<pKorzen;
     WypiszZajeciaProwadzacego(pKorzen->pPrawy);
 
 }

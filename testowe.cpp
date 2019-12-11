@@ -23,7 +23,7 @@ struct Zajecia{
     string Przedmiot;
     Zajecia* pLewy;
     Zajecia* pPrawy;
-}jd;
+};
 
 /** element listy prowadzacych */
 struct Prowadzacy{
@@ -49,35 +49,54 @@ Prowadzacy* ZnajdzProwadzacegoRekurencyjnie (Prowadzacy* pGlowaListyProwadzacych
 }
 
 /** wskaźnik na korzeń drzewa binarnego */
-Zajecia* DodajZajeciaProwadzacemu (){
-    return nullptr;
+//zrobić warunki dla godzin
+// lewo = pKorzen->pLewy
+// if (PoczatekZajec > lewo->PoczatekZajec)
+// lewo->pLewy
+// else lewo->pPrawy i to samo dla drugiej strony?
+Zajecia* DodajZajeciaProwadzacemu (Zajecia *pKorzen, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string Grupa, string przedmiot){
+  if (not pKorzen)
+  {
+    Zajecia * temp = new Zajecia;
+    temp->PoczatekZajec = PoczatekZajec;
+    temp->DzienZajec = DzienZajec;
+    temp->pLewy = temp->pPrawy = nullptr;
+    return temp;
+  }
+  if(DzienZajec > (pKorzen->DzienZajec))
+    {
+      pKorzen->pPrawy = DodajZajeciaProwadzacemu(pKorzen->pPrawy, PoczatekZajec, KoniecZajec, DzienZajec, Grupa, przedmiot);
+    }
+  else if (DzienZajec <= (pKorzen->DzienZajec))
+    {
+      pKorzen->pLewy = DodajZajeciaProwadzacemu(pKorzen->pLewy, PoczatekZajec, KoniecZajec, DzienZajec, Grupa, przedmiot);
+    }
+  return pKorzen;
 }
 
-void DodajProwadzacegoNaPoczatek (Prowadzacy *& pGlowaListyProwadzacych, Zajecia *& pGlowaListyZajec, string nazwisko){          
+void DodajProwadzacegoNaPoczatek (Prowadzacy *& pGlowaListyProwadzacych, Zajecia *& pGlowaListyZajec, string nazwisko){
   //jeśli nie istnieje to dodaj do listy
  if (not pGlowaListyProwadzacych)
      pGlowaListyProwadzacych = new Prowadzacy {nazwisko, nullptr, pGlowaListyZajec};
  //dodaj na poczatek listy tak aby byl tylko jeden prowadzacy przedmioty
 else if (ZnajdzProwadzacegoRekurencyjnie(pGlowaListyProwadzacych, nazwisko) == nullptr)
         pGlowaListyProwadzacych = new Prowadzacy {nazwisko, pGlowaListyProwadzacych, pGlowaListyZajec};
-
-/*        //jeśli nie istnieje i nie ma zajec element dodaj do listy element bez wskaznikow
-        if (not pGlowaListyProwadzacych) //and  DodajZajeciaProwadzacemu( ) == nullptr
-            pGlowaListyProwadzacych = new Prowadzacy {nazwisko, nullptr, nullptr};
-            //jesli nie istnieje zaden element ale ma zajecia dodaj element ze wskaznikiem na liste zajec
-            else if (not pGlowaListyProwadzacych) //and DodajZajeciaProwadzacemu( ) != nullptr
-              pGlowaListyProwadzacych = new Prowadzacy {nazwisko, nullptr, pGlowaListyZajec}
-              //jesli nie ma takiego prowadzacego a nie ma zajec to dodaj go na poczatek bez wskaznika na liste zajec
-                else if (ZnajdzProwadzacegoRekurencyjnie(pGlowaListyProwadzacych, nazwisko) == nullptr) // and DodajZajeciaProwadzacemu( ) == nullptr 
-                  pGlowaListyProwadzacych = new Prowadzacy {nazwisko, pGlowaListyProwadzacych, nullptr};
-                  //jesli nie ma takiego prowadzacego a ma zajecia dodaj na poczatek ze wskaznikiem na nastepny element i na liste zajec
-                  else
-                    pGlowaListyProwadzacych = new Prowadzacy {nazwisko, pGlowaListyProwadzacych, pGlowaListyZajec};
-*/
 }
 
 /** wypisz posortowane drzewo zajec wg. dnia i godziny */
-void WypiszZajeciaProwadzacego(){
+//poprawic wypisywanie
+void WypiszZajeciaProwadzacego(Zajecia * pKorzen){
+    if (not pKorzen)
+    {
+        return;
+    }
+    WypiszZajeciaProwadzacego(pKorzen->pLewy);
+      cout<<pKorzen-><<" ";
+    WypiszZajeciaProwadzacego(pKorzen->pPrawy);
+  
+}
+
+void UsunWszystko(){
 
 }
 

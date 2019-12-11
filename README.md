@@ -1,6 +1,6 @@
 # Projekt Plan
 
-*W pliku zawarte są dane zajęć w następującym formacie:
+W pliku zawarte są dane zajęć w następującym formacie:
 <godzina rozpoczęcia>-<godzina zakończenia> <dzień> <grupa> <prowadzący> <przedmiot>
 Godzina jest podana w formacie: hh:mm, dzień przyjmuje wartości: pn, wt, sr, cz, pt, sb, nd. 
 Grupa, prowadzący i przedmiot to pojedyncze wyrazy. Przykładowy plik:
@@ -19,4 +19,4 @@ Kolejne wpisu planu są posortowane chronologicznie. Przykładowy plik Kowalski.
 08:30-10:00 pt gr1 Programowanie
 
 Program uruchamiany jest z linii poleceń z wykorzystaniem następującego przełącznika:
--i plik wejściowy*
+-i plik wejściowy

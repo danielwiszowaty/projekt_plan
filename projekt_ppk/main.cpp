@@ -54,8 +54,11 @@ int main()
     Wczytaj(pGlowa, kowal, GodzinaP, GodzinaK, dzien, grupa, przedmiot);
     Wczytaj(pGlowa, kowal, GodzinaP2, GodzinaK2, dzien, grupa, przedmiot);
     Wczytaj(pGlowa, kowal, GodzinaP3, GodzinaK3, dzien, grupa, przedmiot);
-    Wczytaj(pGlowa, zbych, GodzinaP, GodzinaK, dzien, grupa, przedmiot);
+    Wczytaj(pGlowa, zbych, GodzinaP, GodzinaK, dzien, grupa, przedmiot2);
     WypiszZajeciaProwadzacego(pGlowa->pKorzenListyZajec);
+    cout<<endl;
+    auto p = pGlowa->pNastepnyProwadzacy;
+    WypiszZajeciaProwadzacego(p->pKorzenListyZajec);
             
     UsunWszystko(pGlowa);
 

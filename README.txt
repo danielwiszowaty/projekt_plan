@@ -20,3 +20,4 @@ Kolejne wpisu planu są posortowane chronologicznie. Przykładowy plik Kowalski.
 
 Program uruchamiany jest z linii poleceń z wykorzystaniem następującego przełącznika:
 -i plik wejściowy
+jd

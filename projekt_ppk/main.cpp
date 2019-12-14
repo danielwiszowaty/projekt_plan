@@ -11,6 +11,7 @@ int main()
     Prowadzacy * pGlowa = nullptr;
     string kowal = "Kowalski";
     string zbych = "Zbyszek";
+    string pies = "LOL";
     Godzina GodzinaP {14,12};
     Godzina GodzinaK {18,21};
     Godzina GodzinaP1 {13,14};
@@ -55,10 +56,14 @@ int main()
     Wczytaj(pGlowa, kowal, GodzinaP2, GodzinaK2, dzien, grupa, przedmiot);
     Wczytaj(pGlowa, kowal, GodzinaP3, GodzinaK3, dzien, grupa, przedmiot);
     Wczytaj(pGlowa, zbych, GodzinaP, GodzinaK, dzien, grupa, przedmiot2);
+Wczytaj(pGlowa, pies, GodzinaP2, GodzinaK2, dzien, grupa, przedmiot2);
     WypiszZajeciaProwadzacego(pGlowa->pKorzenListyZajec);
     cout<<endl;
     auto p = pGlowa->pNastepnyProwadzacy;
+    auto x = p->pNastepnyProwadzacy;
     WypiszZajeciaProwadzacego(p->pKorzenListyZajec);
+cout<<endl;
+    WypiszZajeciaProwadzacego(x->pKorzenListyZajec);
             
     UsunWszystko(pGlowa);
 

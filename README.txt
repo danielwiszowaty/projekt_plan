@@ -1,5 +1,5 @@
 Opis repozytorium:
-/projekt_plan/ pliki .cpp/.h/makefile
+/projekt_ppk/ pliki .cpp/.h/makefile
 /make_i_nvwa/ folder memory i plik makefile do sprawdzania wycieków na linuxie
 /dane_do_strumienia/ dane wczytywane z pliku
 

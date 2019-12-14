@@ -1,5 +1,10 @@
-Projekt Plan
+Opis repozytorium:
+/projekt_plan/ pliki .cpp/.h/makefile
+/make_i_nvwa/ folder memory i plik makefile do sprawdzania wycieków na linuxie
+/dane_do_strumienia/ dane wczytywane z pliku
 
+
+Opis zadania:
 W pliku zawarte są dane zajęć w następującym formacie:
 <godzina rozpoczęcia>-<godzina zakończenia> <dzień> <grupa> <prowadzący> <przedmiot>
 Godzina jest podana w formacie: hh:mm, dzień przyjmuje wartości: pn, wt, sr, cz, pt, sb, nd. 
@@ -20,4 +25,17 @@ Kolejne wpisu planu są posortowane chronologicznie. Przykładowy plik Kowalski.
 
 Program uruchamiany jest z linii poleceń z wykorzystaniem następującego przełącznika:
 -i plik wejściowy
-jd
+
+void wczytaj ()
+{
+    // godzina dzien nazwa_przedmiotu prowadzacy
+    
+    Prowadzacy * p = znajdzProwadzacegi (pGlowalistyprowadzacych);
+    if (not p)
+        p = DodajProwadzcego (pGlowalistyprowadzacych);
+    
+    // p na pewno ma jakas wartosc
+    
+    DodajZajeciaProwadzacemu (p); // dodaj w sposób posortowany 
+    
+}

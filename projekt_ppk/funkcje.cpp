@@ -46,6 +46,7 @@ string WypiszDzien(Dzien DzienZajec){
         default: return ""; break;
     }
 }
+
 /** funkcja zwracajaca wskaznik na szukanego prowadzacego */
 Prowadzacy* ZnajdzProwadzacegoRekurencyjnie (Prowadzacy* pGlowaListyProwadzacych, string nazwisko){
     //jeśli istnieje
@@ -62,6 +63,7 @@ Prowadzacy* ZnajdzProwadzacegoRekurencyjnie (Prowadzacy* pGlowaListyProwadzacych
     else
         return nullptr;
 }
+
 /** funkcja dodajaca prowadzacego na koniec listy jednokierunkowej */
 Prowadzacy* DodajProwadzacegoNaKoniecListy (Prowadzacy*& pGlowaListyProwadzacych, string nazwisko)
 {
@@ -70,6 +72,7 @@ Prowadzacy* DodajProwadzacegoNaKoniecListy (Prowadzacy*& pGlowaListyProwadzacych
     else
         return DodajProwadzacegoNaKoniecListy(pGlowaListyProwadzacych->pNastepnyProwadzacy, nazwisko);
 }
+
 /** funkcja ktora dodaje posortowane zajecia */
 void DodajZajeciaProwadzacemu (Zajecia*& pKorzen, Godzina& PoczatekZajec, Godzina& KoniecZajec, Dzien& DzienZajec, string& grupa, string& przedmiot)
 {
@@ -123,6 +126,18 @@ void WypiszZajeciaProwadzacego(Zajecia* pKorzen){
         WypiszZajeciaProwadzacego(pKorzen->pPrawy);
     }
 }
+
+void WypiszWszystkieZajecia(Prowadzacy*& pGlowaListyProwadzacych){
+    if(pGlowaListyProwadzacych)
+    {
+        WypiszZajeciaProwadzacego(pGlowaListyProwadzacych->pKorzenListyZajec);
+        cout<<endl;
+        auto p = pGlowaListyProwadzacych->pNastepnyProwadzacy;
+        WypiszWszystkieZajecia(p);
+
+    }
+}
+
 /** funkcja usuwajaca drzewo zajec */
 void UsunDrzewo(Zajecia*& pKorzen){
     //jesli korzen istnieje

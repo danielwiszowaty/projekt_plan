@@ -19,6 +19,8 @@ void DodajZajeciaProwadzacemu (Zajecia*& pKorzen, Godzina& PoczatekZajec, Godzin
 
 void WypiszZajeciaProwadzacego(Zajecia* pKorzen);
 
+void WypiszWszystkieZajecia(Prowadzacy*& pGlowaListyProwadzacych);
+
 void UsunDrzewo(Zajecia*& pKorzen);
 
 void UsunWszystko(Prowadzacy*& pGlowaListyProwadzacych);

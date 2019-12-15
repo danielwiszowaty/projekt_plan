@@ -175,3 +175,17 @@ void Wczytaj(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Godzina Pocz
         p = DodajProwadzacegoNaKoniecListy(pGlowaListyProwadzacych, nazwisko);
     DodajZajeciaProwadzacemu(p->pKorzenListyZajec, PoczatekZajec, KoniecZajec, DzienZajec, grupa, przedmiot);
 }
+
+void OdczytZPliku(const string& nazwapliku, Prowadzacy*& pGlowaListyProwadzacych){
+    ifstream plik;
+    plik.open("./dane_do_strumienia/" + nazwapliku);
+        if(plik.good() == false)
+        {
+            cout<<"Nie znaleziono pliku "<<nazwapliku<<endl;
+            plik.close();
+        }
+        else
+        {
+
+        }
+}

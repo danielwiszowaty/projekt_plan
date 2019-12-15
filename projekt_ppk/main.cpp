@@ -3,6 +3,7 @@
 #include <fstream>
 
 using namespace std;
+
 #include "struktury.h"
 #include "funkcje.h"
 
@@ -11,7 +12,7 @@ int main()
     Prowadzacy * pGlowa = nullptr;
     string kowal = "Kowalski";
     string zbych = "Zbyszek";
-    string pies = "LOL";
+    string stach = "Staszek";
     Godzina GodzinaP {14,12};
     Godzina GodzinaK {18,21};
     Godzina GodzinaP1 {13,14};
@@ -32,7 +33,13 @@ int main()
     Wczytaj(pGlowa, kowal, GodzinaP2, GodzinaK2, dzien, grupa, przedmiot);
     Wczytaj(pGlowa, kowal, GodzinaP3, GodzinaK3, dzien, grupa, przedmiot);
     Wczytaj(pGlowa, zbych, GodzinaP, GodzinaK, dzien, grupa, przedmiot2);
-    Wczytaj(pGlowa, pies, GodzinaP2, GodzinaK2, dzien, grupa, przedmiot2);
+    Wczytaj(pGlowa, kowal, GodzinaP3, GodzinaK3, dzien, grupa, przedmiot);
+    Wczytaj(pGlowa, zbych, GodzinaP, GodzinaK, dzien, grupa, przedmiot2);
+    Wczytaj(pGlowa, kowal, GodzinaP3, GodzinaK3, dzien, grupa, przedmiot);
+    Wczytaj(pGlowa, zbych, GodzinaP, GodzinaK, dzien, grupa, przedmiot2);
+    Wczytaj(pGlowa, stach, GodzinaP2, GodzinaK2, dzien, grupa, przedmiot2);
+    Wczytaj(pGlowa, kowal, GodzinaP3, GodzinaK3, dzien, grupa, przedmiot);
+    Wczytaj(pGlowa, zbych, GodzinaP, GodzinaK, dzien, grupa, przedmiot2);
 
     WypiszWszystkieZajecia(pGlowa);
     UsunWszystko(pGlowa);

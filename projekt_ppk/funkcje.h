@@ -27,4 +27,6 @@ void UsunWszystko(Prowadzacy*& pGlowaListyProwadzacych);
 
 void Wczytaj(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot);
 
+void OdczytZPliku(const string& nazwapliku, Prowadzacy*& pGlowaListyProwadzacych);
+
 #endif

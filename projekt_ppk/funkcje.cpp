@@ -47,6 +47,18 @@ string WypiszDzien(Dzien DzienZajec){
     }
 }
 
+Dzien Konwersja(string& dzionek){
+    if(dzionek == "pn") return pn;
+    else if (dzionek == "wt") return wt;
+    else if (dzionek == "sr") return sr;
+    else if (dzionek == "cz") return cz;
+    else if (dzionek == "pt") return pt;
+    else if (dzionek == "sb") return sb;
+    else if (dzionek == "nd") return nd;
+    //end of non void function
+    //else return 
+}
+
 /** funkcja zwracajaca wskaznik na szukanego prowadzacego */
 Prowadzacy* ZnajdzProwadzacegoRekurencyjnie (Prowadzacy* pGlowaListyProwadzacych, string nazwisko){
     //jeśli istnieje
@@ -176,16 +188,43 @@ void Wczytaj(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Godzina Pocz
     DodajZajeciaProwadzacemu(p->pKorzenListyZajec, PoczatekZajec, KoniecZajec, DzienZajec, grupa, przedmiot);
 }
 
-void OdczytZPliku(const string& nazwapliku, Prowadzacy*& pGlowaListyProwadzacych){
+void Odczyt(const string& nazwapliku, Prowadzacy*& pGlowaListyProwadzacych){
     ifstream plik;
-    plik.open("./dane_do_strumienia/" + nazwapliku);
-        if(plik.good() == false)
-        {
-            cout<<"Nie znaleziono pliku "<<nazwapliku<<endl;
-            plik.close();
-        }
-        else
-        {
+	plik.open(nazwapliku); //otwieranie pliku 
+	
+		if (plik.good() == false) //sprawdzenie czy plik moze byc otwarty 
+		{
+			plik.close();
+		}
+		else
+		{
+				Godzina PoczatekZajec {0,0};
+                Godzina KoniecZajec {0,0};
+                string DzienZajec = "";
+                string grupa = "";
+                string nazwisko = "";
+                string przedmiot = "";
+				char znak = 0;
+                char znak1= 0;
+                char znak2 = 0;
+				while (!plik.eof())
+				{
 
-        }
-}
+					plik >> PoczatekZajec.Godzinka;
+					plik >> znak;
+					plik >> PoczatekZajec.Minuta;
+					plik >> znak1;
+					plik >> KoniecZajec.Godzinka;
+					plik >> znak2;
+					plik >> KoniecZajec.Minuta;
+					plik >> DzienZajec;
+					plik >> grupa;
+					plik >> nazwisko;
+					plik >> przedmiot;
+					
+					Wczytaj(pGlowaListyProwadzacych, nazwisko, PoczatekZajec, KoniecZajec, Konwersja(DzienZajec), grupa, przedmiot);
+               
+				}
+		}
+		plik.close(); 
+	}

@@ -11,6 +11,8 @@ bool Mniejsza(const Zajecia & pLewy, const Zajecia & pPrawy);
 
 string WypiszDzien(Dzien DzienZajec);
 
+Dzien Konwersja(const string& dzionek);
+
 Prowadzacy* ZnajdzProwadzacegoRekurencyjnie (Prowadzacy* pGlowaListyProwadzacych, string nazwisko);
 
 Prowadzacy* DodajProwadzacegoNaKoniecListy (Prowadzacy*& pGlowaListyProwadzacych, string nazwisko);
@@ -27,6 +29,6 @@ void UsunWszystko(Prowadzacy*& pGlowaListyProwadzacych);
 
 void Wczytaj(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot);
 
-void OdczytZPliku(const string& nazwapliku, Prowadzacy*& pGlowaListyProwadzacych);
+void Odczyt(const string& nazwapliku, Prowadzacy*& pGlowaListyProwadzacych);
 
 #endif

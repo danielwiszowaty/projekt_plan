@@ -33,6 +33,7 @@ struct Prowadzacy{
     string NazwiskoProwadzacego;
     Prowadzacy* pNastepnyProwadzacy;
     Zajecia* pKorzenListyZajec;
+	
 };
 
 #endif

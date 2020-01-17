@@ -9,7 +9,9 @@ using namespace std;
 
 bool Mniejsza(const Zajecia & pLewy, const Zajecia & pPrawy);
 
-string WypiszDzien(Dzien DzienZajec);
+string StringNaEnum(Dzien DzienZajec);
+
+Dzien EnumNaString(const string& dzien);
 
 Prowadzacy* ZnajdzProwadzacegoRekurencyjnie (Prowadzacy* pGlowaListyProwadzacych, string nazwisko);
 
@@ -17,7 +19,7 @@ Prowadzacy* DodajProwadzacegoNaKoniecListy (Prowadzacy*& pGlowaListyProwadzacych
 
 void DodajZajeciaProwadzacemu (Zajecia*& pKorzen, Godzina& PoczatekZajec, Godzina& KoniecZajec, Dzien& DzienZajec, string& grupa, string& przedmiot);
 
-void WypiszZajeciaProwadzacego(Zajecia* pKorzen);
+void WypiszZajeciaProwadzacego(Zajecia* pKorzen, ofstream& strumien);
 
 void WypiszWszystkieZajecia(Prowadzacy*& pGlowaListyProwadzacych);
 
@@ -27,6 +29,6 @@ void UsunWszystko(Prowadzacy*& pGlowaListyProwadzacych);
 
 void Wczytaj(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot);
 
-void OdczytZPliku(const string& nazwapliku, Prowadzacy*& pGlowaListyProwadzacych);
+bool Odczyt(const string& nazwapliku, Prowadzacy*& pGlowaListyProwadzacych);
 
 #endif

@@ -9,7 +9,7 @@ using namespace std;
 #include "struktury.h"
 #include "funkcje.h"
 
-/** */
+/** Funkcja porówująca dzień następnie godzinę początkową i końcową */
 bool Mniejsza(const Zajecia & pLewy, const Zajecia & pPrawy)
 {
     if(pLewy.DzienZajec < pPrawy.DzienZajec)
@@ -22,18 +22,32 @@ bool Mniejsza(const Zajecia & pLewy, const Zajecia & pPrawy)
             return true;
         else if(pLewy.PoczatekZajec.Godzinka > pPrawy.PoczatekZajec.Godzinka)
             return false;
-        else // godziny takie same, porownujemy minuty
+        else // godziny poczatkowe takie same, porownujemy minuty
         {
             if(pLewy.PoczatekZajec.Minuta < pPrawy.PoczatekZajec.Minuta)
                 return true;
-            else 
+            else if(pLewy.PoczatekZajec.Minuta > pPrawy.PoczatekZajec.Minuta)
                 return false;
+            else // minuty takie same, porownujemy godziny konca zajec
+            {
+                if(pLewy.KoniecZajec.Godzinka < pPrawy.KoniecZajec.Godzinka)
+                  return true;
+                else if(pLewy.KoniecZajec.Godzinka > pPrawy.KoniecZajec.Godzinka)
+                  return false;
+                else // godziny koncowe takie same, porownujemy minuty
+                {
+                    if(pLewy.KoniecZajec.Minuta < pPrawy.KoniecZajec.Minuta)
+                        return true;
+                    else
+                        return false;
+                }
+            } 
         }
     }
 }
 
-/** funkcja wypisujaca enum jako string */
-string WypiszDzien(Dzien DzienZajec){
+/** Funkcja konwertująca enum na string */
+string EnumNaString(Dzien DzienZajec){
     switch(DzienZajec)
     {
         case pn: return "pn"; break;
@@ -47,7 +61,18 @@ string WypiszDzien(Dzien DzienZajec){
     }
 }
 
-/** funkcja zwracajaca wskaznik na szukanego prowadzacego */
+/** Funkcja konwertująca string na enum */
+Dzien StringNaEnum(string& dzien){
+    if(dzien == "pn") return pn;
+    else if (dzien == "wt") return wt;
+    else if (dzien == "sr") return sr;
+    else if (dzien == "cz") return cz;
+    else if (dzien == "pt") return pt;
+    else if (dzien == "sb") return sb;
+    else return nd;
+}
+
+/** Funkcja zwracajaca wskaznik na szukanego prowadzacego */
 Prowadzacy* ZnajdzProwadzacegoRekurencyjnie (Prowadzacy* pGlowaListyProwadzacych, string nazwisko){
     //jeśli istnieje
     if (pGlowaListyProwadzacych)
@@ -64,20 +89,23 @@ Prowadzacy* ZnajdzProwadzacegoRekurencyjnie (Prowadzacy* pGlowaListyProwadzacych
         return nullptr;
 }
 
-/** funkcja dodajaca prowadzacego na koniec listy jednokierunkowej */
+/** Funkcja dodajaca prowadzacego na koniec listy jednokierunkowej */
 Prowadzacy* DodajProwadzacegoNaKoniecListy (Prowadzacy*& pGlowaListyProwadzacych, string nazwisko)
 {
+    //jeśli nie ma listy to ją utwórz
     if(not pGlowaListyProwadzacych)
         return pGlowaListyProwadzacych = new Prowadzacy {nazwisko, nullptr, nullptr };
+    //dodaj rekurencyjnie na koniec listy
     else
         return DodajProwadzacegoNaKoniecListy(pGlowaListyProwadzacych->pNastepnyProwadzacy, nazwisko);
 }
 
-/** funkcja ktora dodaje posortowane zajecia */
+/** Funkcja dodająca zajęcia do drzewa binarnego */
 void DodajZajeciaProwadzacemu (Zajecia*& pKorzen, Godzina& PoczatekZajec, Godzina& KoniecZajec, Dzien& DzienZajec, string& grupa, string& przedmiot)
 {
     auto pNowy = new Zajecia {PoczatekZajec, KoniecZajec, DzienZajec, grupa, przedmiot, nullptr, nullptr};
     
+    //jesli nie ma to utworz nowy korzen
     if(not pKorzen)
         pKorzen = pNowy;
     else
@@ -85,7 +113,8 @@ void DodajZajeciaProwadzacemu (Zajecia*& pKorzen, Godzina& PoczatekZajec, Godzin
       auto p = pKorzen;
       while(true)
       {
-          if (Mniejsza (*pNowy, *p))  // nowy jest mniejszy od p
+        // nowy jest mniejszy od p
+          if (Mniejsza (*pNowy, *p))  
         {
           if(p->pLewy)
             p = p->pLewy;
@@ -109,34 +138,35 @@ void DodajZajeciaProwadzacemu (Zajecia*& pKorzen, Godzina& PoczatekZajec, Godzin
    }
 }
 
-/** funkcja wypisujaca posortowane zajecia prowadzacego*/
+/** Funkcja wypisujaca posortowane zajecia prowadzacego*/
 //inorder traversal
-void WypiszZajeciaProwadzacego(Zajecia* pKorzen){
+void WypiszZajeciaProwadzacego(Zajecia* pKorzen, ofstream& strumien){
     //jesli istnieje
     if (pKorzen)
     {
-        WypiszZajeciaProwadzacego(pKorzen->pLewy);
-            cout<<setw(2)<<setfill('0')<<pKorzen->PoczatekZajec.Godzinka<<
+		 WypiszZajeciaProwadzacego(pKorzen->pLewy, strumien);
+            strumien<<setw(2)<<setfill('0')<<pKorzen->PoczatekZajec.Godzinka<<
             ":"<<setw(2)<<setfill('0')<<pKorzen->PoczatekZajec.Minuta<<
             "-"<<setw(2)<<setfill('0')<<pKorzen->KoniecZajec.Godzinka<<
             ":"<<setw(2)<<setfill('0')<<pKorzen->KoniecZajec.Minuta<<
-            " "<<WypiszDzien(pKorzen->DzienZajec)<<
+            " "<<EnumNaString(pKorzen->DzienZajec)<<
             " "<<pKorzen->Grupa<<
             " "<<pKorzen->Przedmiot<<endl;
-        WypiszZajeciaProwadzacego(pKorzen->pPrawy);
+        WypiszZajeciaProwadzacego(pKorzen->pPrawy, strumien);
     }
 }
-
+/** Funkcja wypisująca zajęcia każdego prowadzącego */
 void WypiszWszystkieZajecia(Prowadzacy*& pGlowaListyProwadzacych){
+    //jeśli istnieje
     if(pGlowaListyProwadzacych)
     {
-        WypiszZajeciaProwadzacego(pGlowaListyProwadzacych->pKorzenListyZajec);
-        cout<<endl;
+		string wyjscie = pGlowaListyProwadzacych->NazwiskoProwadzacego + ".txt";
+		ofstream plik(wyjscie);
+        WypiszZajeciaProwadzacego(pGlowaListyProwadzacych->pKorzenListyZajec, plik);
         auto p = pGlowaListyProwadzacych->pNastepnyProwadzacy;
         WypiszWszystkieZajecia(p);
-
     }
-}
+}	
 
 /** funkcja usuwajaca drzewo zajec */
 void UsunDrzewo(Zajecia*& pKorzen){
@@ -168,24 +198,51 @@ void UsunWszystko(Prowadzacy*& pGlowaListyProwadzacych){
         UsunWszystko(p);
     }
 }
-
+/** Funkcja tworząca element listy o takim samym nazwisku a następnie przypisuje mu zajęcia */
 void Wczytaj(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot){
     Prowadzacy* p = ZnajdzProwadzacegoRekurencyjnie(pGlowaListyProwadzacych, nazwisko);
         if (not p)
         p = DodajProwadzacegoNaKoniecListy(pGlowaListyProwadzacych, nazwisko);
     DodajZajeciaProwadzacemu(p->pKorzenListyZajec, PoczatekZajec, KoniecZajec, DzienZajec, grupa, przedmiot);
 }
-
-void OdczytZPliku(const string& nazwapliku, Prowadzacy*& pGlowaListyProwadzacych){
+/** Funkcja odczytująca elementy z pliku a następnie wczytująca je do dynamicznej struktury */
+bool Odczyt(const string& nazwapliku, Prowadzacy*& pGlowaListyProwadzacych){
+    bool plikistnieje=false;
     ifstream plik;
-    plik.open("./dane_do_strumienia/" + nazwapliku);
-        if(plik.good() == false)
-        {
-            cout<<"Nie znaleziono pliku "<<nazwapliku<<endl;
-            plik.close();
-        }
-        else
-        {
-
-        }
+	plik.open(nazwapliku); //otwieranie pliku 
+	
+		if (!plik.good()) //sprawdzenie czy plik moze byc otwarty 
+		{
+			plik.close();
+            return plikistnieje;
+		}
+		else
+		{
+                plikistnieje = true;
+				Godzina PoczatekZajec {0,0};
+                Godzina KoniecZajec {0,0};
+                string DzienZajec = "";
+                string grupa = "";
+                string nazwisko = "";
+                string przedmiot = "";
+				char znak = 0;
+				while (!plik.eof())
+				{
+					plik >> PoczatekZajec.Godzinka;
+					plik >> znak;
+					plik >> PoczatekZajec.Minuta;
+					plik >> znak;
+					plik >> KoniecZajec.Godzinka;
+					plik >> znak;
+					plik >> KoniecZajec.Minuta;
+					plik >> DzienZajec;
+					plik >> grupa;
+					plik >> nazwisko;
+					plik >> przedmiot;
+					
+					Wczytaj(pGlowaListyProwadzacych, nazwisko, PoczatekZajec, KoniecZajec, StringNaEnum(DzienZajec), grupa, przedmiot);
+				}
+		}
+		plik.close(); 
+        return plikistnieje;
 }

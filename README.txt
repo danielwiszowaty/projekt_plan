@@ -25,17 +25,3 @@ Kolejne wpisu planu są posortowane chronologicznie. Przykładowy plik Kowalski.
 
 Program uruchamiany jest z linii poleceń z wykorzystaniem następującego przełącznika:
 -i plik wejściowy
-
-void wczytaj ()
-{
-    // godzina dzien nazwa_przedmiotu prowadzacy
-    
-    Prowadzacy * p = znajdzProwadzacegi (pGlowalistyprowadzacych);
-    if (not p)
-        p = DodajProwadzcego (pGlowalistyprowadzacych);
-    
-    // p na pewno ma jakas wartosc
-    
-    DodajZajeciaProwadzacemu (p); // dodaj w sposób posortowany 
-    
-}

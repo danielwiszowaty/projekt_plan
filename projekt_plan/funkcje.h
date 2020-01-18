@@ -5,6 +5,7 @@
 #include <random>
 #include <vector>
 #include <regex>
+#include <chrono>
 
 using namespace std;
 
@@ -33,7 +34,7 @@ void UsunWszystko(Prowadzacy*& pGlowaListyProwadzacych);
 
 void WczytajZajeciaProwadzacemu(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot);
 
-bool OdczytajZPliku(Prowadzacy*& pGlowaListyProwadzacych, const string& nazwapliku);
+bool OdczytajZPliku(Prowadzacy*& pGlowaListyProwadzacych, string& nazwapliku);
 
 bool SprawdzPlik(string& nazwapliku);
 
@@ -43,6 +44,6 @@ void GenerujPlik(int ile, string& nazwapliku);
 	
 void Instrukcja();
 
-int OdczytajArgumenty(int argc, char* argv[], string& nazwapliku, int& ile);
+int WierszPolecen(int argc, char* argv[], string& nazwapliku, int& ile);
 
 #endif

@@ -5,6 +5,7 @@
 #include <random>
 #include <vector>
 #include <regex>
+#include <chrono>
 
 using namespace std;
 
@@ -209,7 +210,7 @@ void WczytajZajeciaProwadzacemu(Prowadzacy*& pGlowaListyProwadzacych, string naz
 }
 
 /** Funkcja odczytująca elementy z pliku a następnie wczytująca je do dynamicznej struktury */
-bool OdczytajZPliku(Prowadzacy*& pGlowaListyProwadzacych, const string& nazwapliku){
+bool OdczytajZPliku(Prowadzacy*& pGlowaListyProwadzacych, string& nazwapliku){
     ifstream plik;
 	plik.open("../pliki_txt/" + nazwapliku + ".txt"); //otwieranie pliku 
 	
@@ -249,18 +250,18 @@ bool OdczytajZPliku(Prowadzacy*& pGlowaListyProwadzacych, const string& nazwapli
 }
 
 int Silnik(size_t min, size_t max){
-    random_device r;
-    default_random_engine e1(r());
-    uniform_int_distribution<size_t> uniform_dist(min,max);
-    int liczba = uniform_dist(e1);
-    return liczba;
+
+    std::default_random_engine silnik;
+    silnik.seed(std::chrono::system_clock::now().time_since_epoch().count());
+    std::uniform_int_distribution<size_t> rozklad (min,max);
+    return rozklad(silnik);
 }
 
 void GenerujPlik(int ile, string& nazwapliku){
     string wyjscie = "../pliki_txt/" + nazwapliku + ".txt";
     ofstream plik(wyjscie);
-    vector<string> Nazwiska = {"Nowak", "Kowalski", "Lewandowski", "Zielinski"};
-    //vector<string> Nazwiska = {"Nowak", "Kowalski", "Lewandowski", "Zielinski", "Wojcik", "Kowalczyk", "Kaminska", "Lewandowska", "Dabrowska", "Zielinska"};
+    //vector<string> Nazwiska = {"Nowak", "Kowalski", "Lewandowski", "Zielinski"};
+    vector<string> Nazwiska = {"Nowak", "Kowalski", "Lewandowski", "Zielinski", "Wojcik", "Kowalczyk", "Kaminska", "Lewandowska", "Dabrowska", "Zielinska"};
     vector<string> Przedmioty = {"Programowanie", "Java", "Fizyka", "Matematyka", "Historia", "Przyroda", "Geografia"};
     vector<string> Dni = {"pn", "wt", "sr", "cz", "pt", "sb", "nd"};
     string grupa = "gr";
@@ -320,7 +321,7 @@ void Instrukcja()
 }
 
 //1 = ok; 2= -h; 3= zle argumenty; 4= za duzo arg; 5=generuj plik
-int OdczytajArgumenty(int argc, char* argv[], string& nazwapliku, int& ile)
+int WierszPolecen(int argc, char* argv[], string& nazwapliku, int& ile)
 {
     int policz=0;
     //maximum 3 argumenty

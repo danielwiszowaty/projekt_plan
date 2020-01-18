@@ -5,6 +5,7 @@
 #include <random>
 #include <vector>
 #include <regex>
+#include <chrono>
 
 using namespace std;
 
@@ -15,7 +16,7 @@ int main(int argc, char* argv[])
 {
 	string plik = "";
 	int ilewierszy = 0;
-	int wybor = OdczytajArgumenty(argc, argv, plik, ilewierszy);
+	int wybor = WierszPolecen(argc, argv, plik, ilewierszy);
 	switch(wybor){
 		case 1:
 		{

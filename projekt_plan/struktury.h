@@ -1,7 +1,10 @@
-
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <iomanip>
+#include <random>
+#include <vector>
+#include <regex>    
 
 using namespace std;
 

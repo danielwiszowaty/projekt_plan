@@ -1,7 +1,7 @@
 Opis repozytorium:
-/projekt_ppk/ pliki .cpp/.h/makefile
-/make_i_nvwa/ folder memory i plik makefile do sprawdzania wycieków na linuxie
-/dane_do_strumienia/ dane wczytywane z pliku
+/projekt_plan/ pliki .cpp/.h/makefile
+/pliki_txt/ pliki .txt wygenerowane przez program główny
+/make_i_nvwa/ folder służący do sprawdzania wycieków
 
 
 Opis zadania:
@@ -25,3 +25,7 @@ Kolejne wpisu planu są posortowane chronologicznie. Przykładowy plik Kowalski.
 
 Program uruchamiany jest z linii poleceń z wykorzystaniem następującego przełącznika:
 -i plik wejściowy
+
+Regex: ^([01]\d|2[0-3]):([0-5]\d)-([01]\d|2[0-3]):([0-5]\d) (pn|wt|sr|cz|pt|sb|nd) (gr[1-9]) ([A-Z][a-z]+) ([A-Z][a-z]+)$
+
+https://regex101.com/r/xNK8RV/15

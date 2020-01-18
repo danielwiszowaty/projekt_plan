@@ -1,17 +1,21 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <iomanip>
+#include <random>
+#include <vector>
+#include <regex>
 
 using namespace std;
 
 #ifndef FUNKCJE_H
 #define FUNKCJE_H
 
-bool Mniejsza(const Zajecia & pLewy, const Zajecia & pPrawy);
-
-string StringNaEnum(Dzien DzienZajec);
+bool Mniejsza(const Zajecia& pLewy, const Zajecia& pPrawy);
 
 Dzien EnumNaString(const string& dzien);
+
+string StringNaEnum(Dzien DzienZajec);
 
 Prowadzacy* ZnajdzProwadzacegoRekurencyjnie (Prowadzacy* pGlowaListyProwadzacych, string nazwisko);
 
@@ -27,8 +31,18 @@ void UsunDrzewo(Zajecia*& pKorzen);
 
 void UsunWszystko(Prowadzacy*& pGlowaListyProwadzacych);
 
-void Wczytaj(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot);
+void WczytajZajeciaProwadzacemu(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot);
 
-bool Odczyt(const string& nazwapliku, Prowadzacy*& pGlowaListyProwadzacych);
+bool OdczytajZPliku(Prowadzacy*& pGlowaListyProwadzacych, const string& nazwapliku);
+
+bool SprawdzPlik(string& nazwapliku);
+
+int Silnik(size_t min, size_t max);
+
+void GenerujPlik(int ile, string& nazwapliku);
+	
+void Instrukcja();
+
+int OdczytajArgumenty(int argc, char* argv[], string& nazwapliku, int& ile);
 
 #endif

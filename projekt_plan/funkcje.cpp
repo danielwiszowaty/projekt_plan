@@ -1,8 +1,10 @@
-
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <iomanip>
+#include <random>
+#include <vector>
+#include <regex>
 
 using namespace std;
 
@@ -144,8 +146,8 @@ void WypiszZajeciaProwadzacego(Zajecia* pKorzen, ofstream& strumien){
     //jesli istnieje
     if (pKorzen)
     {
-		 WypiszZajeciaProwadzacego(pKorzen->pLewy, strumien);
-            strumien<<setw(2)<<setfill('0')<<pKorzen->PoczatekZajec.Godzinka<<
+	WypiszZajeciaProwadzacego(pKorzen->pLewy, strumien);
+       strumien<<setw(2)<<setfill('0')<<pKorzen->PoczatekZajec.Godzinka<<
             ":"<<setw(2)<<setfill('0')<<pKorzen->PoczatekZajec.Minuta<<
             "-"<<setw(2)<<setfill('0')<<pKorzen->KoniecZajec.Godzinka<<
             ":"<<setw(2)<<setfill('0')<<pKorzen->KoniecZajec.Minuta<<
@@ -160,8 +162,8 @@ void WypiszWszystkieZajecia(Prowadzacy*& pGlowaListyProwadzacych){
     //jeśli istnieje
     if(pGlowaListyProwadzacych)
     {
-		string wyjscie = pGlowaListyProwadzacych->NazwiskoProwadzacego + ".txt";
-		ofstream plik(wyjscie);
+	string wyjscie = "../pliki_txt/" + pGlowaListyProwadzacych->NazwiskoProwadzacego + ".txt";
+	ofstream plik(wyjscie);
         WypiszZajeciaProwadzacego(pGlowaListyProwadzacych->pKorzenListyZajec, plik);
         auto p = pGlowaListyProwadzacych->pNastepnyProwadzacy;
         WypiszWszystkieZajecia(p);
@@ -190,7 +192,7 @@ void UsunWszystko(Prowadzacy*& pGlowaListyProwadzacych){
     if (pGlowaListyProwadzacych)
     {
         UsunDrzewo(pGlowaListyProwadzacych->pKorzenListyZajec);
-        //przechodzimy do nastepnego prowadzacego;
+        //przechodzimy do nastepnego prowadzacego;     
         auto p = pGlowaListyProwadzacych->pNastepnyProwadzacy;
         delete pGlowaListyProwadzacych;
         pGlowaListyProwadzacych = nullptr;
@@ -199,50 +201,179 @@ void UsunWszystko(Prowadzacy*& pGlowaListyProwadzacych){
     }
 }
 /** Funkcja tworząca element listy o takim samym nazwisku a następnie przypisuje mu zajęcia */
-void Wczytaj(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot){
+void WczytajZajeciaProwadzacemu(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot){
     Prowadzacy* p = ZnajdzProwadzacegoRekurencyjnie(pGlowaListyProwadzacych, nazwisko);
         if (not p)
         p = DodajProwadzacegoNaKoniecListy(pGlowaListyProwadzacych, nazwisko);
     DodajZajeciaProwadzacemu(p->pKorzenListyZajec, PoczatekZajec, KoniecZajec, DzienZajec, grupa, przedmiot);
 }
+
 /** Funkcja odczytująca elementy z pliku a następnie wczytująca je do dynamicznej struktury */
-bool Odczyt(const string& nazwapliku, Prowadzacy*& pGlowaListyProwadzacych){
-    bool plikistnieje=false;
+bool OdczytajZPliku(Prowadzacy*& pGlowaListyProwadzacych, const string& nazwapliku){
     ifstream plik;
-	plik.open(nazwapliku); //otwieranie pliku 
+	plik.open("../pliki_txt/" + nazwapliku + ".txt"); //otwieranie pliku 
 	
 		if (!plik.good()) //sprawdzenie czy plik moze byc otwarty 
 		{
 			plik.close();
-            return plikistnieje;
+            		return false;
 		}
 		else
 		{
-                plikistnieje = true;
-				Godzina PoczatekZajec {0,0};
+		Godzina PoczatekZajec {0,0};
                 Godzina KoniecZajec {0,0};
                 string DzienZajec = "";
                 string grupa = "";
                 string nazwisko = "";
                 string przedmiot = "";
-				char znak = 0;
-				while (!plik.eof())
-				{
-					plik >> PoczatekZajec.Godzinka;
-					plik >> znak;
-					plik >> PoczatekZajec.Minuta;
-					plik >> znak;
-					plik >> KoniecZajec.Godzinka;
-					plik >> znak;
-					plik >> KoniecZajec.Minuta;
-					plik >> DzienZajec;
-					plik >> grupa;
-					plik >> nazwisko;
-					plik >> przedmiot;
-					
-					Wczytaj(pGlowaListyProwadzacych, nazwisko, PoczatekZajec, KoniecZajec, StringNaEnum(DzienZajec), grupa, przedmiot);
-				}
+		char znak = 0;
+			
+		while (!plik.eof())
+			{
+				plik >> PoczatekZajec.Godzinka;
+				plik >> znak;
+				plik >> PoczatekZajec.Minuta;
+				plik >> znak;
+				plik >> KoniecZajec.Godzinka;
+				plik >> znak;
+				plik >> KoniecZajec.Minuta;
+				plik >> DzienZajec;
+				plik >> grupa;
+				plik >> nazwisko;
+				plik >> przedmiot;
+			WczytajZajeciaProwadzacemu(pGlowaListyProwadzacych, nazwisko, PoczatekZajec, KoniecZajec, StringNaEnum(DzienZajec), grupa, przedmiot);
+			}
 		}
 		plik.close(); 
-        return plikistnieje;
+       		return true;
 }
+
+int Silnik(size_t min, size_t max){
+    random_device r;
+    default_random_engine e1(r());
+    uniform_int_distribution<size_t> uniform_dist(min,max);
+    int liczba = uniform_dist(e1);
+    return liczba;
+}
+
+void GenerujPlik(int ile, string& nazwapliku){
+    string wyjscie = "../pliki_txt/" + nazwapliku + ".txt";
+    ofstream plik(wyjscie);
+    vector<string> Nazwiska = {"Nowak", "Kowalski", "Lewandowski", "Zielinski"};
+    //vector<string> Nazwiska = {"Nowak", "Kowalski", "Lewandowski", "Zielinski", "Wojcik", "Kowalczyk", "Kaminska", "Lewandowska", "Dabrowska", "Zielinska"};
+    vector<string> Przedmioty = {"Programowanie", "Java", "Fizyka", "Matematyka", "Historia", "Przyroda", "Geografia"};
+    vector<string> Dni = {"pn", "wt", "sr", "cz", "pt", "sb", "nd"};
+    string grupa = "gr";
+
+    for (int i=0; i<ile; i++)
+    {
+            
+           plik<<setw(2)<<setfill('0')<<Silnik(0,23)<<
+            ":"<<setw(2)<<setfill('0')<<Silnik(0,59)<<
+            "-"<<setw(2)<<setfill('0')<<Silnik(0,23)<<
+            ":"<<setw(2)<<setfill('0')<<Silnik(0,59)<<
+            " "<<Dni[Silnik(0,Dni.size()-1)]<<
+            " "<<grupa<<Silnik(1,9)<<
+            " "<<Nazwiska[Silnik(0,Nazwiska.size()-1)]<<
+            " "<<Przedmioty[Silnik(0,Przedmioty.size()-1)]<<endl;
+    }
+}
+
+bool SprawdzPlik(string& nazwapliku){
+    string wejscie = "../pliki_txt/" + nazwapliku + ".txt";
+    ifstream plik(wejscie);
+    string linia;
+    bool poprawnedane=false;
+    regex kod("^([01]\\d|2[0-3]):([0-5]\\d)-([01]\\d|2[0-3]):([0-5]\\d) (pn|wt|sr|cz|pt|sb|nd) (gr[1-9]) ([A-Z][a-z]+) ([A-Z][a-z]+)$");
+    smatch porownaj;
+
+    if(!plik.good())
+    {
+        plik.close();
+    }
+    else
+    {
+        poprawnedane=true;
+        for(int numerLinii = 1; getline(plik, linia); numerLinii++)
+            {
+                if(!regex_search(linia,porownaj,kod))
+                {
+                    cout<<"Niepoprawna linia "<<numerLinii<<":"<<endl<<linia<<endl;
+                    poprawnedane= false; 
+                }
+            }
+        plik.close();
+    }  
+    return poprawnedane;
+}
+
+void Instrukcja()
+{
+    cout
+    <<"PLAN"<<endl
+    <<"Program uruchamiany z linii polecen"<<endl
+    <<"-h sluzy do wywolania instrukcji"<<endl
+    <<"-g /nazwapliku/ (bez .txt) /ilosc/ sluzy do wygenerowania pliku z prowadzacymi"<<endl
+    <<"-i /nazwapliku/ (bez .txt)         sluzy do uruchomienia programu"<<endl
+    <<"Program zapisuje posortowane zajecia w pliku dla kazdego prowadzacego"<<endl;
+}
+
+//1 = ok; 2= -h; 3= zle argumenty; 4= za duzo arg; 5=generuj plik
+int OdczytajArgumenty(int argc, char* argv[], string& nazwapliku, int& ile)
+{
+    int policz;
+    //maximum 3 argumenty
+    if(argc <= 4)
+    {
+        for (int i=0; i<argc; i++)
+        {
+            //jesli pierwszy argument to -h wywolaj instrukcje
+            if(string(argv[i]) == string("-h"))
+            {
+                return 2;
+            }
+            //jesli pierwszy argument to -i wykonaj operacje na pliku
+            if(string(argv[i]) == string("-i"))
+            {
+                //jesli drugi argument istnieje i trzeci argument jest pusty
+                if(argv[i+1] and argv[i+2] == nullptr)
+                {
+                    //nazwa pliku to drugi argument 
+                    nazwapliku = string(argv[i+1]);
+                    policz++;
+                }
+                else 
+                    //jesli nie to podano zle argumenty
+                    return 3;
+               
+            }
+            //jesli pierwszy argument to -g wygeneruj plik z prowadzacymi
+            if(string(argv[i]) == string("-g"))
+            {
+                //jesli istnieja oba argumenty
+                if(argv[i+1] and argv[i+2])
+                {
+                    //ilosc wierszy do wygenerowania to ostatni argument
+                    ile = strtol(argv[i+2], NULL, 10);
+                    //jesli ilosc jest ujemna podano zle argumenty
+                    if(ile<0)
+                        return 3;
+                    //nazwa pliku to drugi argument, wygeneruj plik
+                    else
+                    {
+                        nazwapliku = string(argv[i+1]);
+                        return 5;
+                    }
+                }
+                else return 3;
+            }
+        }
+        if (policz == 1)
+            return policz;
+        else 
+            return 3;
+    }
+    //podano za duzo argumentow
+    else
+        return 4;
+}  

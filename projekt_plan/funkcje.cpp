@@ -289,6 +289,7 @@ bool SprawdzPlik(string& nazwapliku){
 
     if(!plik.good())
     {
+        cout<<"Nie ma takiego pliku lub nie udalo sie go utworzyc"<<endl;
         plik.close();
     }
     else
@@ -321,7 +322,7 @@ void Instrukcja()
 //1 = ok; 2= -h; 3= zle argumenty; 4= za duzo arg; 5=generuj plik
 int OdczytajArgumenty(int argc, char* argv[], string& nazwapliku, int& ile)
 {
-    int policz;
+    int policz=0;
     //maximum 3 argumenty
     if(argc <= 4)
     {
@@ -340,7 +341,7 @@ int OdczytajArgumenty(int argc, char* argv[], string& nazwapliku, int& ile)
                 {
                     //nazwa pliku to drugi argument 
                     nazwapliku = string(argv[i+1]);
-                    policz++;
+                    policz=1;
                 }
                 else 
                     //jesli nie to podano zle argumenty

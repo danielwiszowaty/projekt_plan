@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 				OdczytajZPliku(pGlowa, plik);
 				WypiszWszystkieZajecia(pGlowa);
 				UsunWszystko(pGlowa);
-				cout<<"Utworzono pliki dla kazdego prowadzacego w folderze pliki_txt"<<endl;
+				cout<<"Z pliku "<<plik<<" utworzono plany dla kazdego prowadzacego"<<endl;
 				return 0;
 			}
 			return 0;

@@ -291,8 +291,8 @@ W programie wykorzystano listę podwieszaną. Lista nadrzędna przechowuje infor
 
 
 \end{tikzpicture}
-\caption{Przykład listy podwieszanej. 
-\newline Dla elementu \texttt{A} zostały dodane liczby w kolejności 15, 12, 17, 16}
+\caption{Przykład listy podwieszanej. \newline
+Dla elementu \texttt{A} zostały dodane liczby w kolejności 15, 12, 17, 16}
 \label{fig:lista_podwieszana}
 \end{figure} 
 
@@ -367,13 +367,33 @@ Ostatnią funkcją programu jest funkcja zwalniająca pamięć \lstinline|usunWs
 
 \subsection{Szczegółowy opis typów i funkcji}
 
-Szczegółowy opis typów i funkcji zawarty jest w załączniku.
-
- 
+Szczegółowy opis typów i funkcji zawarty jest w załączniku. 
 
 \section{Testowanie}
 \marginpar{}
-Program testuje poprawność pliku przy użyciu wyrażeń regularnych. Pliki niepoprawne (niezawierające liczb, zawierający liczby w niepoprawnym formacie, niezgodne ze specyfikacją) powodują zgłoszenie błędu. Plik pusty nie powoduje zgłoszenia błędu, ale utworzenie pustego pliku wynikowego (został podany pusty plan i pusty plan został zwrócony).
+
+Program testuje poprawność pliku przy użyciu \texttt{wyrażeń regularnych}. \\
+Spacje traktowane są jako osobny znak. W \texttt{C++} należy stosować podwójny ukośnik wsteczny \lstinline|\\|. Dane nie spełniającego podanego warunku zostaną wypisane w konsoli, ale sam program nie zostanie wykonany. \newline \newline
+\begin{tabular}{ll}
+\tiny \verb/^([01]\d|2[0-3]):([0-5]\d)-([01]\d|2[0-3]):([0-5]\d) (pn|wt|sr|cz|pt|sb|nd) (gr[1-9]) ([A-Z][a-z]+) ([A-Z][a-z]+)$/  
+\end{tabular} \newline
+
+\begin{tabular}{ll}
+	\toprule
+	\verb/^/                       & początek linii    \\
+	\verb/[01]\d/                  & cyfra z zakresu 0-1 i cyfra  \\
+	\verb/|/             & lub         \\
+	\verb/2[0-3]/                    & 2 z przodu i cyfra z zakresu 0-3            \\
+	\verb/:/             & dwukropek                    \\
+	\verb/[0-5]\d/                     & cyfra z zakresu 0-5 i cyfra                     \\
+	\verb/-/ 				& myślnik \\
+	\verb/(pn|wt|sr|cz|pt|sb|nd)/         & odpowiedni dzień \\
+	\verb/(gr[1-9])/                     & grupa i cyfra z zakresu 1-9                    \\
+	\verb/([A-Z][a-z]+)/ & słowo rozpoczynające się wielką literą             \\
+	\verb/$/ 			& koniec linii             \\
+	\bottomrule
+	                            &
+\end{tabular}
 
 Program został sprawdzony pod kątem wycieków pamięci przy użyciu biblioteki NVWA.
 

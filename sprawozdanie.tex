@@ -148,7 +148,7 @@ escapeinside={(*@}{@*)},%
 
 
 % autor:
-\fancyhead[RE]{\small\bfseries Krzysztof Simiński} % autor sprawozdania
+\fancyhead[RE]{\small\bfseries Daniel Wiszowaty} % autor sprawozdania
 
 
 
@@ -188,7 +188,7 @@ Wydział Informatyki, Elektroniki i Informatyki
 \begin{tabular}{ll}
 	\toprule
 	autor                       & Daniel Wiszowaty    \\
-	prowadzący                  & dr inż. Krzysztof Simiński  \\
+	prowadzący                  & dr inż. Artur Pasierbek  \\
 	rok akademicki              & \rokakademicki         \\
 	kierunek                    & informatyka            \\
 	rodzaj studiów              & SSI                    \\
@@ -210,8 +210,10 @@ Wydział Informatyki, Elektroniki i Informatyki
 \section{Treść zadania}
 \marginpar{}
 W pliku zawarte są dane zajęć w następującym formacie: \newline \newline
-(godzina rozpoczęcia)-(godzina zakończenia) (dzień) (grupa) (prowadzący) (przedmiot)
-\newline
+\begin{tabular}{ll}
+\footnotesize
+\centering (godzina rozpoczęcia)-(godzina zakończenia) (dzień) (grupa) (prowadzący) (przedmiot)
+\end{tabular} \newline
 
 \noindent Godzina jest podana w formacie: \texttt{hh:mm}, dzień przyjmuje wartości: \texttt{pn}, \texttt{wt}, \texttt{sr}, \texttt{cz}, \texttt{pt}, \texttt{sb}, \texttt{nd}. Grupa,
 prowadzący i przedmiot to pojedyncze wyrazy. Przykładowy plik: \newline
@@ -233,7 +235,7 @@ nazwiskiem prowadzącego) zawierający plan zajęć dla prowadzącego. Kolejne w
 
 Program uruchamiany jest z linii poleceń z wykorzystaniem następującego przełącznika: \\
 \begin{tabular}{ll}
-\texttt{-i} & plik wejściowy \\
+\indent \texttt{-i} & plik wejściowy \\
 \end{tabular}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -289,14 +291,15 @@ W programie wykorzystano listę podwieszaną. Lista nadrzędna przechowuje infor
 
 
 \end{tikzpicture}
-\caption{Przykład listy podwieszanej.}
+\caption{Przykład listy podwieszanej. 
+\newline Dla elementu \texttt{A} zostały dodane liczby w kolejności 15, 12, 17, 16}
 \label{fig:lista_podwieszana}
 \end{figure} 
 
 
 \subsection{Algorytmy}
 \marginpar{}
-Program sortuje zajęcia poprzez umieszczenie ich w drzewie binarnym. Wypisanie zajęć realizowane jest przez rekurencyjne przejście przez drzewo. Wypisanie planu dla każdego prowadzącego realizowane jest przez rekurencyjne przejście przez listę.
+Program sortuje zajęcia poprzez umieszczenie ich w drzewie binarnym. Wypisanie zajęć realizowane jest przez rekurencyjne przejście przez drzewo. Wypisanie planu dla każdego prowadzącego realizowane jest przez rekurencyjne przejście przez listę i wypisanie odpowiadającego mu drzewa.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -351,16 +354,15 @@ Podano za dużo argumentów do programu
 
 
 \subsection{Ogólna struktura programu}
-\marginpar{Ogólna struktura programu, żeby czytelnik miał rozeznanie, co się w programie dzieje, jak program jest skonstruowany.}
+\marginpar{}
 W funkcji głównej wywołana jest funkcja \lstinline|pobierzParametry|.
 Funkcja ta sprawdza, czy program został wywołany w prawidłowy sposób. Gdy program nie został wywołany prawidłowo, zostaje wypisany stosowny komunikat i program się kończy.
-Następnie wywoływana jest funkcja \lstinline|wczytajDoDrzewa|.
-Funkcja ta otwiera plik wejściowy, sczytuje liczby i umieszcza je w drzewie binarnym.
-Po sczytaniu wszystkich liczb funkcja zamyka plik.
-W razie wystąpienia błędu funkcja zwraca puste drzewo, w przeciwnym wypadku – poprawną wartość korzenia drzewa.
-Następnie wywoływana jest funkcja \lstinline|zapiszDrzewoDoPliku|.
-Funkcja przechodzi rekurencyjnie drzewo i zapisuje posortowane wartości do pliku wyjściowym. Po zapisaniu liczb funkcja zamyka plik. W razie wystąpienia błędu funkcja zwraca \lstinline!false!, w przeciwnym wypadku -- \lstinline!true!.
-Ostatnią funkcją programu jest funkcja zwalniająca pamięć \lstinline|usunDrzewo|.
+Następnie wywoływana jest funkcja \lstinline|sprawdzPlik|.
+Funkcja ta przy pomocy wyrażeń regularnych sprawdza poprawność całego pliku wejściowego. Jeżeli plik jest nieodpowiedni na ekranie zostanie ukazany komunikat z numerem niepoprawnej linii.
+Funkcja zwraca \texttt{true} jeżeli plik jest poprawny a następnie zostaje wywołana funkcja \lstinline|odczytajZPliku| która wczytuje kolejne linijki pliku do listy podwieszanej.
+Wywołana zostaje funkcja \lstinline|wypiszWszystkeZajecia|.
+Funkcja przechodzi rekurencyjnie przez listę, wypisuje każde drzewo zapisuje posortowane zajęcia do plików wyjściowych. Po zapisaniu liczb funkcja zamyka plik. 
+Ostatnią funkcją programu jest funkcja zwalniająca pamięć \lstinline|usunWszystko|.
 
 
 \subsection{Szczegółowy opis typów i funkcji}
@@ -370,10 +372,10 @@ Szczegółowy opis typów i funkcji zawarty jest w załączniku.
  
 
 \section{Testowanie}
-\marginpar{Należy opisać jak program był testowany (na zbiorach poprawnych i typowych, na zbiorach poprawnych, ale nietypowych i wreszcie na zbiorach niepoprawnych). Należy opisać zbiory testowe.}
-Program został przetestowany na różnego rodzaju plikach. Pliki niepoprawne (niezawierające liczb, zawierający liczby w niepoprawnym formacie, niezgodne ze specyfikacją) powodują zgłoszenie błędu. Plik pusty nie powoduje zgłoszenia błędu, ale utworzenie pustego pliku wynikowego (został podany pusty zbiór liczb i pusty zbiór został zwrócony). Maksymalna liczba akceptowana w pliku zależy od kompilatora (typ \lstinline!int! może być realizowany jako zmienna dwu- lub czterobajtowa). Maksymalna wielkość pliku, dla której udało się poprawnie uruchomić program, to \mbox{1.57$\,$GB}. Większe pliki wejściowe powodują błąd alokacji pamięci.
+\marginpar{}
+Program testuje poprawność pliku przy użyciu wyrażeń regularnych. Pliki niepoprawne (niezawierające liczb, zawierający liczby w niepoprawnym formacie, niezgodne ze specyfikacją) powodują zgłoszenie błędu. Plik pusty nie powoduje zgłoszenia błędu, ale utworzenie pustego pliku wynikowego (został podany pusty plan i pusty plan został zwrócony).
 
-Program został sprawdzony pod kątem wycieków pamięci.
+Program został sprawdzony pod kątem wycieków pamięci przy użyciu biblioteki NVWA.
 
 %\section{Uzyskane wyniki}
 %Jeżeli zadanie tego wymaga, wyniki można przestawić w~różny sposób, np. w tabeli ({\it vide} tabela \ref{tab:1}), czy na~rysunku ({\it vide} rycina \ref{fig:rysunek}) albo po prostu opisać uzyskane wyniki.
@@ -382,69 +384,21 @@ Program został sprawdzony pod kątem wycieków pamięci.
 
 
 \section{Wnioski}
-\marginpar{Proszę napisać, czy zrealizowali Państwo zadanie. Jeśli nie, to dlaczego się to nie powiodło. Warto napisać, czego się Państwo nauczyli podczas tworzenia programu, czy laboratorium wniosło coś kon\-struk\-tyw\-nego\ldots, można dodać uwagi dotyczące przedmiotu, sposobu prowadzenia, sugerowane zmiany, czego Państwo się spodziewali po ćwiczeniach, a nie zostało to spełnione. Wnioski nie muszą być pisane lanym tekstem, mogą być wypunktowane.}
-Program do sortowania liczb jest programem prostym, chociaż wymaga samodzielnego zarządzania pamięcią. Najbardziej wymagające okazało się usunięcie wycieków pamięci. Szczególnie trudne było zapewnienie prawidłowego zwolnienia zaalokowanej pamięci, gdy część danych została wczytana do drzewa, po czym w pliku pojawiały się nieprawidłowe dane. Wtedy program powinien przerwać wczytywanie danych i wyświetlić komunikat, niezaniedbując zwolnienia pamięci.
-
-Dla pewnych danych program wykonywał się poprawnie na niektórych komputerach, podczas gdy na innych maszynach generował niepoprawne wyniki. Było to spowodowane tym, że w zależności od kompilatora typ \lstinline!int! ma 2 albo 4 bajty. Kompilacja typu jako dwubajtowego skutkowała przepełnieniem zakresu zmiennej w czasie wykonania.
-
-%\begin{figure}[t]
-%\centering
-%\includegraphics{graf/rysunek.1}
-%\caption{Opis rysunku znajduje się pod nim.}
-%\label{fig:rysunek}
-%\end{figure}
-
+\marginpar{}
+Program do sortowania planu zajęć nie był programem trudnym, ale kluczowe było zastosowanie odpowiedniej struktury. Najtrudniejsze okazało się sprawdzenie poprawności danych w pliku wejściowym. 
 
  
-
 \begin{filecontents}{bibliografia.bib}
-@article{Oetiker2007NieZaKrotkie,
-	author       = {Tobias Oetiker and Tomasz Przechlewski and Ryszard Kubiak},
-	title       = {Nie za kr\'{o}tkie wprowadzenie do systemu {L}a{T}e{X}2e}},
-	YEAR         = {2007},
-}
 
-@ARTICLE{id:Abonyi2002modifiedgathgevafuzzy,
-  author = {Abonyi, J\'{a}nos and Babu\v{s}ka, Robert and Szeifert, Ferenc},
-  title = {{Modified Gath-Geva fuzzy clustering for identification of Takagi-Sugeno
-	fuzzy models}},
-  journal = {Systems, Man, and Cybernetics, Part B, IEEE Transactions on},
-  year = {2002},
-  volume = {32},
-  pages = {612--621},
-  number = {5}
-}
-
-@BOOK{id:Cormen2001Wprowadzenie,
-  title = {Wprowadzenie do algorytm\'{o}w},
-  publisher = {Wydawnictwa Naukowo-Techniczne},
-  year = {2001},
-  author = {Thomas H. Cormen and Charles E. Leiserson and Ronald L. Rivest},
-  address = {Warszawa}
 }
 \end{filecontents}
 
 
 \cite{id:Cormen2001Wprowadzenie}.
-%\marginpar{Tutaj można umieścić wzory, które są wykorzystane w implementacji:
-%\begin{equation}\label{eq:rownanie}
-%S = \sum^\infty_{n = 0} \frac{1}{n!}e^{n\omega j}.
-%\end{equation}
-%}
 
 \bibliographystyle{plplain}
 \bibliography{bibliografia}
 
-
-
-%\pagebreak
-{\color{red} Przed oddaniem sprawozdania proszę sprawdzić, czy jest poprawne pod względem:
-\begin{itemize}
-\item merytorycznym,
-\item językowym: błędy ortograficzne (np. pisownia łączna i rozdzielna, wielkie i małe litery), fleksyjne, składniowe, interpunkcyjne, stylistyczne (np. kolokwializmy, pleonazmy);  pomocne tutaj mogą być strony \footnote{\texttt{http://sjp.pwn.pl}}, \footnote{\texttt{http://sjp.pwn.pl/zasady}} lub \footnote{\texttt{https://pl.wikipedia.org/wiki/Pomoc:Powszechne\_błędy\_językowe}}. 
-\item formalnym: m. in.: krój szeryfowy pisma, dzielenie wyrazów, wcięcia akapitów, wyjustowanie tekstu do lewego i prawego marginesu, brak spacji przed znakiem przestankowym, poprawne użycie apostrofu, ,,cudzysłowów'', dywizu `-' i pauzy `--'.
-\end{itemize}
-}
  
 \cleardoublepage
 

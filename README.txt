@@ -1,7 +1,7 @@
 Opis repozytorium:
-/projekt_plan/ pliki .cpp/.h/makefile
+/kod/ pliki .cpp/.h/makefile
 /pliki_txt/ pliki .txt wygenerowane przez program główny
-/make_i_nvwa/ folder służący do sprawdzania wycieków
+/nvwa/ folder służący do sprawdzania wycieków
 
 
 Opis zadania:

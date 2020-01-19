@@ -12,8 +12,8 @@ using namespace std;
 #include "struktury.h"
 #include "funkcje.h"
 
-/** Funkcja porówująca dzień następnie godzinę początkową i końcową */
-bool Mniejsza(const Zajecia & pLewy, const Zajecia & pPrawy)
+/* Funkcja porówująca dzień następnie godzinę początkową i końcową */
+bool mniejsza(const Zajecia & pLewy, const Zajecia & pPrawy)
 {
     if(pLewy.DzienZajec < pPrawy.DzienZajec)
         return true;
@@ -49,8 +49,8 @@ bool Mniejsza(const Zajecia & pLewy, const Zajecia & pPrawy)
     }
 }
 
-/** Funkcja konwertująca enum na string */
-string EnumNaString(Dzien DzienZajec){
+/* Funkcja konwertująca enum na string */
+string enumNaString(Dzien DzienZajec){
     switch(DzienZajec)
     {
         case pn: return "pn"; break;
@@ -64,8 +64,8 @@ string EnumNaString(Dzien DzienZajec){
     }
 }
 
-/** Funkcja konwertująca string na enum */
-Dzien StringNaEnum(string& dzien){
+/* Funkcja konwertująca string na enum */
+Dzien stringNaEnum(string& dzien){
     if(dzien == "pn") return pn;
     else if (dzien == "wt") return wt;
     else if (dzien == "sr") return sr;
@@ -75,8 +75,8 @@ Dzien StringNaEnum(string& dzien){
     else return nd;
 }
 
-/** Funkcja zwracajaca wskaznik na szukanego prowadzacego */
-Prowadzacy* ZnajdzProwadzacegoRekurencyjnie (Prowadzacy* pGlowaListyProwadzacych, string nazwisko){
+/* Funkcja zwracajaca wskaznik na szukanego prowadzacego */
+Prowadzacy* znajdzProwadzacegoRekurencyjnie (Prowadzacy* pGlowaListyProwadzacych, string nazwisko){
     //jeśli istnieje
     if (pGlowaListyProwadzacych)
     {
@@ -85,25 +85,25 @@ Prowadzacy* ZnajdzProwadzacegoRekurencyjnie (Prowadzacy* pGlowaListyProwadzacych
             return pGlowaListyProwadzacych;
         //jeśli nie znaleźlismy szukaj dalej
         else
-            return ZnajdzProwadzacegoRekurencyjnie(pGlowaListyProwadzacych->pNastepnyProwadzacy, nazwisko);
+            return znajdzProwadzacegoRekurencyjnie(pGlowaListyProwadzacych->pNastepnyProwadzacy, nazwisko);
     }
     //nie ma takiego prowadzacego i zwraca nullptr
     else
         return nullptr;
 }
 
-/** Funkcja dodajaca prowadzacego na koniec listy jednokierunkowej */
-Prowadzacy* DodajProwadzacegoNaKoniecListy (Prowadzacy*& pGlowaListyProwadzacych, string nazwisko)
+/* Funkcja dodajaca prowadzacego na koniec listy jednokierunkowej */
+Prowadzacy* dodajProwadzacegoNaKoniecListy (Prowadzacy*& pGlowaListyProwadzacych, string nazwisko)
 {
     //jeśli nie ma listy to ją utwórz
     if(not pGlowaListyProwadzacych)
         return pGlowaListyProwadzacych = new Prowadzacy {nazwisko, nullptr, nullptr };
     //dodaj rekurencyjnie na koniec listy
     else
-        return DodajProwadzacegoNaKoniecListy(pGlowaListyProwadzacych->pNastepnyProwadzacy, nazwisko);
+        return dodajProwadzacegoNaKoniecListy(pGlowaListyProwadzacych->pNastepnyProwadzacy, nazwisko);
 }
 
-/** Funkcja dodająca zajęcia do drzewa binarnego */
+/* Funkcja dodająca zajęcia do drzewa binarnego */
 void DodajZajeciaProwadzacemu (Zajecia*& pKorzen, Godzina& PoczatekZajec, Godzina& KoniecZajec, Dzien& DzienZajec, string& grupa, string& przedmiot)
 {
     auto pNowy = new Zajecia {PoczatekZajec, KoniecZajec, DzienZajec, grupa, przedmiot, nullptr, nullptr};
@@ -117,7 +117,7 @@ void DodajZajeciaProwadzacemu (Zajecia*& pKorzen, Godzina& PoczatekZajec, Godzin
       while(true)
       {
         // nowy jest mniejszy od p
-          if (Mniejsza (*pNowy, *p))  
+          if (mniejsza (*pNowy, *p))  
         {
           if(p->pLewy)
             p = p->pLewy;
@@ -141,44 +141,44 @@ void DodajZajeciaProwadzacemu (Zajecia*& pKorzen, Godzina& PoczatekZajec, Godzin
    }
 }
 
-/** Funkcja wypisujaca posortowane zajecia prowadzacego*/
+/* Funkcja wypisujaca posortowane zajecia prowadzacego*/
 //inorder traversal
-void WypiszZajeciaProwadzacego(Zajecia* pKorzen, ofstream& strumien){
+void wypiszZajeciaProwadzacego(Zajecia* pKorzen, ofstream& strumien){
     //jesli istnieje
     if (pKorzen)
     {
-	WypiszZajeciaProwadzacego(pKorzen->pLewy, strumien);
+	wypiszZajeciaProwadzacego(pKorzen->pLewy, strumien);
        strumien<<setw(2)<<setfill('0')<<pKorzen->PoczatekZajec.Godzinka<<
             ":"<<setw(2)<<setfill('0')<<pKorzen->PoczatekZajec.Minuta<<
             "-"<<setw(2)<<setfill('0')<<pKorzen->KoniecZajec.Godzinka<<
             ":"<<setw(2)<<setfill('0')<<pKorzen->KoniecZajec.Minuta<<
-            " "<<EnumNaString(pKorzen->DzienZajec)<<
+            " "<<enumNaString(pKorzen->DzienZajec)<<
             " "<<pKorzen->Grupa<<
             " "<<pKorzen->Przedmiot<<endl;
-        WypiszZajeciaProwadzacego(pKorzen->pPrawy, strumien);
+        wypiszZajeciaProwadzacego(pKorzen->pPrawy, strumien);
     }
 }
-/** Funkcja wypisująca zajęcia każdego prowadzącego */
-void WypiszWszystkieZajecia(Prowadzacy*& pGlowaListyProwadzacych){
+/* Funkcja wypisująca zajęcia każdego prowadzącego */
+void wypiszWszystkieZajecia(Prowadzacy*& pGlowaListyProwadzacych){
     //jeśli istnieje
     if(pGlowaListyProwadzacych)
     {
-	string wyjscie = "../pliki_txt/" + pGlowaListyProwadzacych->NazwiskoProwadzacego + ".txt";
+	string wyjscie = "../pliki/" + pGlowaListyProwadzacych->NazwiskoProwadzacego + ".txt";
 	ofstream plik(wyjscie);
-        WypiszZajeciaProwadzacego(pGlowaListyProwadzacych->pKorzenListyZajec, plik);
+        wypiszZajeciaProwadzacego(pGlowaListyProwadzacych->pKorzenListyZajec, plik);
         auto p = pGlowaListyProwadzacych->pNastepnyProwadzacy;
-        WypiszWszystkieZajecia(p);
+        wypiszWszystkieZajecia(p);
     }
 }	
 
-/** funkcja usuwajaca drzewo zajec */
-void UsunDrzewo(Zajecia*& pKorzen){
+/* funkcja usuwajaca drzewo zajec */
+void usunDrzewo(Zajecia*& pKorzen){
     //jesli korzen istnieje
     if (pKorzen)
         {
             //usun drzewo rekurencyjnie
-            UsunDrzewo(pKorzen->pLewy);
-            UsunDrzewo(pKorzen->pPrawy);
+            usunDrzewo(pKorzen->pLewy);
+            usunDrzewo(pKorzen->pPrawy);
             //usun korzen i wskaznik na korzen
             delete pKorzen;
             pKorzen = nullptr;
@@ -187,37 +187,37 @@ void UsunDrzewo(Zajecia*& pKorzen){
 
 //usun drzewo-> wskaznik na nastepnego prowadzacego-> usun poprzedniego i wskaznik
 //potem rekurencja
-/** funkcja usuwajaca liste i wszystkie drzewa */
-void UsunWszystko(Prowadzacy*& pGlowaListyProwadzacych){
+/* funkcja usuwajaca liste i wszystkie drzewa */
+void usunWszystko(Prowadzacy*& pGlowaListyProwadzacych){
     //jesli prowadzacy istnieje
     if (pGlowaListyProwadzacych)
     {
-        UsunDrzewo(pGlowaListyProwadzacych->pKorzenListyZajec);
+        usunDrzewo(pGlowaListyProwadzacych->pKorzenListyZajec);
         //przechodzimy do nastepnego prowadzacego;     
         auto p = pGlowaListyProwadzacych->pNastepnyProwadzacy;
         delete pGlowaListyProwadzacych;
         pGlowaListyProwadzacych = nullptr;
         //krok rekurencyjny przechodzacy do nastepnego prowadzacego
-        UsunWszystko(p);
+        usunWszystko(p);
     }
 }
-/** Funkcja tworząca element listy o takim samym nazwisku a następnie przypisuje mu zajęcia */
-void WczytajZajeciaProwadzacemu(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot){
-    Prowadzacy* p = ZnajdzProwadzacegoRekurencyjnie(pGlowaListyProwadzacych, nazwisko);
+/* Funkcja tworząca element listy o takim samym nazwisku a następnie przypisuje mu zajęcia */
+void wczytajZajeciaProwadzacemu(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot){
+    Prowadzacy* p = znajdzProwadzacegoRekurencyjnie(pGlowaListyProwadzacych, nazwisko);
         if (not p)
-        p = DodajProwadzacegoNaKoniecListy(pGlowaListyProwadzacych, nazwisko);
+        p = dodajProwadzacegoNaKoniecListy(pGlowaListyProwadzacych, nazwisko);
     DodajZajeciaProwadzacemu(p->pKorzenListyZajec, PoczatekZajec, KoniecZajec, DzienZajec, grupa, przedmiot);
 }
 
-/** Funkcja odczytująca elementy z pliku a następnie wczytująca je do dynamicznej struktury */
-bool OdczytajZPliku(Prowadzacy*& pGlowaListyProwadzacych, string& nazwapliku){
+/* Funkcja odczytująca elementy z pliku a następnie wczytująca je do dynamicznej struktury */
+bool odczytajZPliku(Prowadzacy*& pGlowaListyProwadzacych, string& nazwaPlikuWejsciowego){
     ifstream plik;
-	plik.open("../pliki_txt/" + nazwapliku + ".txt"); //otwieranie pliku 
+	plik.open("../pliki/" + nazwaPlikuWejsciowego); //otwieranie pliku 
 	
 		if (!plik.good()) //sprawdzenie czy plik moze byc otwarty 
 		{
 			plik.close();
-            		return false;
+            return false;
 		}
 		else
 		{
@@ -242,7 +242,7 @@ bool OdczytajZPliku(Prowadzacy*& pGlowaListyProwadzacych, string& nazwapliku){
 				plik >> grupa;
 				plik >> nazwisko;
 				plik >> przedmiot;
-			WczytajZajeciaProwadzacemu(pGlowaListyProwadzacych, nazwisko, PoczatekZajec, KoniecZajec, StringNaEnum(DzienZajec), grupa, przedmiot);
+			wczytajZajeciaProwadzacemu(pGlowaListyProwadzacych, nazwisko, PoczatekZajec, KoniecZajec, stringNaEnum(DzienZajec), grupa, przedmiot);
 			}
 		}
 		plik.close(); 
@@ -257,8 +257,8 @@ int Silnik(size_t min, size_t max){
     return rozklad(silnik);
 }
 
-void GenerujPlik(int ile, string& nazwapliku){
-    string wyjscie = "../pliki_txt/" + nazwapliku + ".txt";
+void generujPlik(int ile, string& nazwaPlikuWyjsciowego){
+    string wyjscie = "../pliki/" + nazwaPlikuWyjsciowego + ".txt";
     ofstream plik(wyjscie);
     //vector<string> Nazwiska = {"Nowak", "Kowalski", "Lewandowski", "Zielinski"};
     vector<string> Nazwiska = {"Nowak", "Kowalski", "Lewandowski", "Zielinski", "Wojcik", "Kowalczyk", "Kaminska", "Lewandowska", "Dabrowska", "Zielinska"};
@@ -280,8 +280,8 @@ void GenerujPlik(int ile, string& nazwapliku){
     }
 }
 
-bool SprawdzPlik(string& nazwapliku){
-    string wejscie = "../pliki_txt/" + nazwapliku + ".txt";
+bool sprawdzPlik(string& nazwaPlikuWejsciowego){
+    string wejscie = "../pliki/" + nazwaPlikuWejsciowego;
     ifstream plik(wejscie);
     string linia;
     bool poprawnedane=false;
@@ -289,10 +289,7 @@ bool SprawdzPlik(string& nazwapliku){
     smatch porownaj;
 
     if(!plik.good())
-    {
-        cout<<"Nie ma takiego pliku lub nie udalo sie go utworzyc"<<endl;
         plik.close();
-    }
     else
     {
         poprawnedane=true;
@@ -309,73 +306,46 @@ bool SprawdzPlik(string& nazwapliku){
     return poprawnedane;
 }
 
-void Instrukcja()
+void instrukcja()
 {
     cout
     <<"PLAN"<<endl
     <<"Program uruchamiany z linii polecen"<<endl
     <<"-h sluzy do wywolania instrukcji"<<endl
-    <<"-g /nazwapliku/ (bez .txt) /ilosc/ sluzy do wygenerowania pliku z prowadzacymi"<<endl
-    <<"-i /nazwapliku/ (bez .txt)         sluzy do uruchomienia programu"<<endl
+    <<"-g /nazwapliku/ /ilosc/       sluzy do wygenerowania pliku z prowadzacymi"<<endl
+    <<"-i /nazwapliku/.rozszerzenie  sluzy do uruchomienia programu"<<endl
     <<"Program zapisuje posortowane zajecia w pliku dla kazdego prowadzacego"<<endl;
 }
 
 //1 = ok; 2= -h; 3= zle argumenty; 4= za duzo arg; 5=generuj plik
-int WierszPolecen(int argc, char* argv[], string& nazwapliku, int& ile)
+int pobierzArgumenty(int argc, char* argv[], string& nazwaPlikuWejsciowego, int& ile)
 {
-    int policz=0;
-    //maximum 3 argumenty
-    if(argc <= 4)
+    int ok = 0;
+    if (argc <= 4)
     {
-        for (int i=0; i<argc; i++)
+        for (int i = 1; i < argc; i++)
         {
-            //jesli pierwszy argument to -h wywolaj instrukcje
-            if(string(argv[i]) == string("-h"))
+            if (string(argv[i]) == string("-h"))
             {
                 return 2;
             }
-            //jesli pierwszy argument to -i wykonaj operacje na pliku
-            if(string(argv[i]) == string("-i"))
+            if (string(argv[i]) == string("-i"))
             {
-                //jesli drugi argument istnieje i trzeci argument jest pusty
-                if(argv[i+1] and argv[i+2] == nullptr)
-                {
-                    //nazwa pliku to drugi argument 
-                    nazwapliku = string(argv[i+1]);
-                    policz=1;
-                }
-                else 
-                    //jesli nie to podano zle argumenty
-                    return 3;
-               
+                nazwaPlikuWejsciowego = string(argv[i + 1]);
+                ok=1;
             }
-            //jesli pierwszy argument to -g wygeneruj plik z prowadzacymi
-            if(string(argv[i]) == string("-g"))
+            if (string(argv[i]) == string("-g"))
             {
-                //jesli istnieja oba argumenty
-                if(argv[i+1] and argv[i+2])
-                {
-                    //ilosc wierszy do wygenerowania to ostatni argument
-                    ile = strtol(argv[i+2], NULL, 10);
-                    //jesli ilosc jest ujemna podano zle argumenty
-                    if(ile<0)
-                        return 3;
-                    //nazwa pliku to drugi argument, wygeneruj plik
-                    else
-                    {
-                        nazwapliku = string(argv[i+1]);
-                        return 5;
-                    }
-                }
-                else return 3;
+                nazwaPlikuWejsciowego = string(argv[i + 1]);
+                ile = strtol(argv[i+2], NULL, 10);
+                ok=5;
             }
         }
-        if (policz == 1)
-            return policz;
+        if(ok == 1 or ok == 5)  
+        	return ok;
         else 
             return 3;
     }
-    //podano za duzo argumentow
     else
         return 4;
-}  
+} 

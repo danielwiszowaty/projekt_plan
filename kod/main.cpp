@@ -1,11 +1,5 @@
 #include <iostream>
 #include <string>
-#include <fstream>
-#include <iomanip>
-#include <random>
-#include <vector>
-#include <regex>
-#include <chrono>
 
 using namespace std;
 
@@ -16,43 +10,52 @@ int main(int argc, char* argv[])
 {
 	string plik = "";
 	int ilewierszy = 0;
-	int wybor = WierszPolecen(argc, argv, plik, ilewierszy);
+	int wybor = pobierzArgumenty(argc, argv, plik, ilewierszy);
 	switch(wybor){
 		case 1:
 		{
-			if(SprawdzPlik(plik))
+			if(sprawdzPlik(plik))
 			{
 				Prowadzacy* pGlowa = nullptr;
-				OdczytajZPliku(pGlowa, plik);
-				WypiszWszystkieZajecia(pGlowa);
-				UsunWszystko(pGlowa);
+				odczytajZPliku(pGlowa, plik);
+				wypiszWszystkieZajecia(pGlowa);
+				usunWszystko(pGlowa);
 				cout<<"Z pliku "<<plik<<" utworzono plany dla kazdego prowadzacego"<<endl;
 				return 0;
 			}
-			return 0;
+			else 
+			{
+				cout<<endl<<"Plik "<<plik<< " jest wadliwy"<<endl;
+				return 0;
+			}
+			break;
 		}
 		case 2:
 		{
-			Instrukcja();
+			instrukcja();
 			return 0;
+			break;
 		}
 		case 3:
 		{
 			cout<<"Podano zle argumenty do programu\n"<<endl;
-			Instrukcja();
+			instrukcja();
 			return 0;
+			break;
 		}
 		case 4:
 		{
 			cout<<"Podano za dużo argumentow do programu\n"<<endl;
-			Instrukcja();
+			instrukcja();
 			return 0;
+			break;
 		}
 		case 5:
 		{
-			GenerujPlik(ilewierszy, plik);
-			cout<<"Wygenerowano plik "<<plik<<" w folderze pliki_txt ktory zawiera "<<ilewierszy<<" wierszy"<<endl;
+			generujPlik(ilewierszy, plik);
+			cout<<"Wygenerowano plik "<<plik<<".txt w folderze pliki"<<endl;
 			return 0;
+			break;
 		}
 	}
 	return 0;

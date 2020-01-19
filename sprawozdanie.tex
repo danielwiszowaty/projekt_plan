@@ -246,6 +246,53 @@ Zagadnienie przedstawia problem sortowania planu zajęć zapisanych w pliku wej�
 \marginpar{}
 W programie wykorzystano listę podwieszaną. Lista nadrzędna przechowuje informacje o nazwisku prowadzącego. Lista nadrzędna zawiera wskaźnik na drzewo binarne, które przechowuje informacje o godzinie, dniu, grupie i przedmiocie. Drzewo posortowane jest według daty tj. dnia i godziny. Taka struktura umożliwia łatwe posortowanie i wypisanie planu każdego prowadzącego.
 
+\begin{figure}
+\centering
+\begin{tikzpicture}%
+[square/.style={%
+            draw,
+            minimum width=width("#1"),
+            minimum height=width("#1")+2*\pgfshapeinnerysep,
+            node contents={#1}}]
+            
+%draw [help lines] grid (7,7);
+\node at (1,7) (Kowalska) [square={$A$}];
+	\node at (3,7) (Kamiński) [square={$B$}];
+		\node at (5,7) (Nowak) [square={$C$}];
+\node at (1, 5) [circle,draw] (A) {$15$};
+	\node at (0, 3) [circle,draw] (B) {$12$};
+			\node at (2, 3) [circle,draw] (C) {$17$};
+				\node at (1, 1) [circle,draw] (D) {$16$};
+
+\node at (3, 5) [circle,draw] (E) {$4$};
+	\node at (4, 3) [circle,draw] (F) {$6$};
+	
+\node at (5, 5) [circle,draw] (G) {$13$};
+		\node at (6, 3) [circle,draw] (H) {$28$};
+			\node at (5, 1) [circle,draw] (I) {$18$};
+				\node at (7, 1) [circle,draw] (J) {$45$};
+
+
+
+\draw[>=latex,->] (Kowalska) -- (Kamiński);
+\draw[>=latex,->] (Kamiński) -- (Nowak);
+\draw[>=latex,->] (Kowalska) -- (A);
+\draw[>=latex,->] (A) -- (B);
+\draw[>=latex,->] (A) -- (C);
+\draw[>=latex,->] (C) -- (D);
+\draw[>=latex,->] (Kamiński) -- (E);
+\draw[>=latex,->] (Nowak) -- (G);
+\draw[>=latex,->] (G) -- (H);
+\draw[>=latex,->] (H) -- (I);
+\draw[>=latex,->] (H) -- (J);
+\draw[>=latex,->] (G) -- (F);
+
+
+\end{tikzpicture}
+\caption{Przykład listy podwieszanej.}
+\label{fig:lista_podwieszana}
+\end{figure} 
+
 
 \subsection{Algorytmy}
 \marginpar{}

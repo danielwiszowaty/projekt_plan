@@ -26,6 +26,6 @@ Kolejne wpisu planu są posortowane chronologicznie. Przykładowy plik Kowalski.
 Program uruchamiany jest z linii poleceń z wykorzystaniem następującego przełącznika:
 -i plik wejściowy
 
-Regex: ^([01]\d|2[0-3]):([0-5]\d)-([01]\d|2[0-3]):([0-5]\d) (pn|wt|sr|cz|pt|sb|nd) (gr[1-9]) ([A-Z][a-z]+) ([A-Z][a-z]+)$
+Regex: ^(\s*|[ \t]*([01]\d|2[0-3]):([0-5]\d)-([01]\d|2[0-3]):([0-5]\d)[ \t]+(pn|wt|sr|cz|pt|sb|nd)[ \t]+(gr[1-9])[ \t]+([A-Z][a-z]*)[ \t]+([A-Z]([a-z]|[A-Z])*)\s*)$
 
-https://regex101.com/r/xNK8RV/15
+https://regex101.com/r/dzVcYt/1/

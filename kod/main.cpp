@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 			}
 			else 
 			{
-				cout<<endl<<"Plik "<<plik<< " jest wadliwy"<<endl;
+				cout<<endl<<"Plik "<<plik<< " jest wadliwy lub nie istnieje"<<endl;
 				return 0;
 			}
 			break;

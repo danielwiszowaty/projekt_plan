@@ -15,13 +15,13 @@ using namespace std;
 */
 bool mniejsza(const Zajecia& pLewy, const Zajecia& pPrawy);
 
-/** Funkcja konwertuje typ wyliczeniowy na string.
+/** Funkcja konwertuje typ wyliczeniowy na string. Służy do wypisania planów do pliku.
 @param DzienZajec dzień zajęć 
 @return funkcja zwraca string
 */
 string stringNaEnum(Dzien DzienZajec);
 
-/** Funkcja konwertuje string na typ wyliczeniowy.
+/** Funkcja konwertuje string na typ wyliczeniowy. Służy do wczytania danych z pliku.
 @param DzienZajec dzień zajęć 
 @return funkcja zwraca typ wyliczeniowy
 */
@@ -37,7 +37,7 @@ Prowadzacy* znajdzProwadzacegoRekurencyjnie (Prowadzacy* pGlowaListyProwadzacych
 /** Funkcja dodaje rekurencyjnie element na koniec listy. Funkcja alokuje pamięć.
 @param pGlowaListyProwadzących pierwszy element listy
 @param nazwisko element który chcemy dodać do listy
-@return wskaźnik na ostatni element drzewa
+@return wskaźnik na ostatni element listy
 */
 Prowadzacy* dodajProwadzacegoNaKoniecListy (Prowadzacy*& pGlowaListyProwadzacych, string nazwisko);
 
@@ -57,7 +57,7 @@ void dodajZajeciaProwadzacemu (Zajecia*& pKorzen, Godzina& PoczatekZajec, Godzin
 void wypiszZajeciaProwadzacego(Zajecia* pKorzen, ofstream& strumien);
 
 /** Funkcja wypisuje rekurencyjnie posortowane drzewo dla każdego elementu listu jednokierunkowej.
-@param pGlowaListyProwadzacych pierwszy element listy 
+@param pGlowaListyProwadzacych element listy od którego ma się zacząć wypisywanie
 */
 void wypiszWszystkieZajecia(Prowadzacy*& pGlowaListyProwadzacych);
 
@@ -67,7 +67,7 @@ void wypiszWszystkieZajecia(Prowadzacy*& pGlowaListyProwadzacych);
 void usunDrzewo(Zajecia*& pKorzen);
 
 /** Funkcja usuwa rekurencyjnie każde drzewo i całą listę.
-@param pGlowaListyProwadzacych pierwszy element listy
+@param pGlowaListyProwadzacych element listy od którego ma się zacząć usuwanie
 */
 void usunWszystko(Prowadzacy*& pGlowaListyProwadzacych);
 
@@ -84,7 +84,7 @@ void wczytajZajeciaProwadzacemu(Prowadzacy*& pGlowaListyProwadzacych, string naz
 /** Funkcja wczytuje zajęcia z pliku do struktury
 @param pGlowaListyProwadzacych element do którego dodawane są elementy
 @param[in] nazwapliku odczytana przez funkcję nazwa pliku wejściowego
-@return funkcja zwraca true jeśli uda się wczytać cały plik 
+@return funkcja zwraca true jeśli uda się poprawnie wczytać cały plik 
 */
 bool odczytajZPliku(Prowadzacy*& pGlowaListyProwadzacych, string& nazwaPlikuWejsciowego);
 

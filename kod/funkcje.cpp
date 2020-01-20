@@ -147,7 +147,7 @@ void wypiszZajeciaProwadzacego(Zajecia* pKorzen, ofstream& strumien){
     //jesli istnieje
     if (pKorzen)
     {
-	wypiszZajeciaProwadzacego(pKorzen->pLewy, strumien);
+	   wypiszZajeciaProwadzacego(pKorzen->pLewy, strumien);
        strumien<<setw(2)<<setfill('0')<<pKorzen->PoczatekZajec.Godzinka<<
             ":"<<setw(2)<<setfill('0')<<pKorzen->PoczatekZajec.Minuta<<
             "-"<<setw(2)<<setfill('0')<<pKorzen->KoniecZajec.Godzinka<<
@@ -212,7 +212,8 @@ void wczytajZajeciaProwadzacemu(Prowadzacy*& pGlowaListyProwadzacych, string naz
 /* Funkcja odczytująca elementy z pliku a następnie wczytująca je do dynamicznej struktury */
 bool odczytajZPliku(Prowadzacy*& pGlowaListyProwadzacych, string& nazwaPlikuWejsciowego){
     ifstream plik;
-	plik.open("../pliki/" + nazwaPlikuWejsciowego); //otwieranie pliku 
+    string linia = "";
+	plik.open("../pliki/" + nazwaPlikuWejsciowego);
 	
 		if (!plik.good()) //sprawdzenie czy plik moze byc otwarty 
 		{
@@ -221,48 +222,37 @@ bool odczytajZPliku(Prowadzacy*& pGlowaListyProwadzacych, string& nazwaPlikuWejs
 		}
 		else
 		{
-		Godzina PoczatekZajec {0,0};
-                Godzina KoniecZajec {0,0};
-                string DzienZajec = "";
-                string grupa = "";
-                string nazwisko = "";
-                string przedmiot = "";
-		char znak = 0;
-			
-		while (!plik.eof())
-			{
-				plik >> PoczatekZajec.Godzinka;
-				plik >> znak;
-				plik >> PoczatekZajec.Minuta;
-				plik >> znak;
-				plik >> KoniecZajec.Godzinka;
-				plik >> znak;
-				plik >> KoniecZajec.Minuta;
-				plik >> DzienZajec;
-				plik >> grupa;
-				plik >> nazwisko;
-				plik >> przedmiot;
-			wczytajZajeciaProwadzacemu(pGlowaListyProwadzacych, nazwisko, PoczatekZajec, KoniecZajec, stringNaEnum(DzienZajec), grupa, przedmiot);
-			}
+    		Godzina PoczatekZajec {0,0};
+            Godzina KoniecZajec {0,0};
+            string DzienZajec = "";
+            string grupa = "";
+            string nazwisko = "";
+            string przedmiot = "";
+    		char znak = 0;
+    			
+    		while (plik >> PoczatekZajec.Godzinka >> znak >> PoczatekZajec.Minuta >> znak >> KoniecZajec.Godzinka >> znak >> KoniecZajec.Minuta >> DzienZajec >> grupa >> nazwisko >> przedmiot)
+    			wczytajZajeciaProwadzacemu(pGlowaListyProwadzacych, nazwisko, PoczatekZajec, KoniecZajec, stringNaEnum(DzienZajec), grupa, przedmiot);
+    			
 		}
 		plik.close(); 
        		return true;
 }
 
+/* Generuj losowe liczby z danego przedzialu */
 int Silnik(size_t min, size_t max){
-
     std::default_random_engine silnik;
     silnik.seed(std::chrono::system_clock::now().time_since_epoch().count());
     std::uniform_int_distribution<size_t> rozklad (min,max);
     return rozklad(silnik);
 }
 
+/* Generuj plik do posortowania */
 void generujPlik(int ile, string& nazwaPlikuWyjsciowego){
     string wyjscie = "../pliki/" + nazwaPlikuWyjsciowego + ".txt";
     ofstream plik(wyjscie);
-    //vector<string> Nazwiska = {"Nowak", "Kowalski", "Lewandowski", "Zielinski"};
-    vector<string> Nazwiska = {"Nowak", "Kowalski", "Lewandowski", "Zielinski", "Wojcik", "Kowalczyk", "Kaminska", "Lewandowska", "Dabrowska", "Zielinska"};
-    vector<string> Przedmioty = {"Programowanie", "Java", "Fizyka", "Matematyka", "Historia", "Przyroda", "Geografia"};
+    vector<string> Nazwiska = {"Nowak", "Kowalski", "Lewandowski", "Karolak"};
+    //vector<string> Nazwiska = {"Nowak", "Kowalski", "Lewandowski", "Zielinski", "Wojcik", "Kowalczyk", "Kaminska", "Lewandowska", "Dabrowska", "Zielinska"};
+    vector<string> Przedmioty = {"Programowanie", "Java", "Fizyka", "Matematyka", "Historia", "Przyroda", "Geografia", "AMiAL", "TUC"};
     vector<string> Dni = {"pn", "wt", "sr", "cz", "pt", "sb", "nd"};
     string grupa = "gr";
 
@@ -280,12 +270,16 @@ void generujPlik(int ile, string& nazwaPlikuWyjsciowego){
     }
 }
 
+/* Sprawdz czy plik jest poprawny, jesli nie to wypisz zle linie */
+// if nr.linii > x 
+//    break?
+
 bool sprawdzPlik(string& nazwaPlikuWejsciowego){
     string wejscie = "../pliki/" + nazwaPlikuWejsciowego;
     ifstream plik(wejscie);
     string linia;
     bool poprawnedane=false;
-    regex kod("^([01]\\d|2[0-3]):([0-5]\\d)-([01]\\d|2[0-3]):([0-5]\\d) (pn|wt|sr|cz|pt|sb|nd) (gr[1-9]) ([A-Z][a-z]+) ([A-Z][a-z]+)$");
+    regex kod("^(\\s*|[ \\t]*([01]\\d|2[0-3]):([0-5]\\d)-([01]\\d|2[0-3]):([0-5]\\d)[ \\t]+(pn|wt|sr|cz|pt|sb|nd)[ \\t]+(gr[1-9])[ \\t]+([A-Z][a-z]*)[ \\t]+([A-Z]([a-z]|[A-Z])*)\\s*)$");
     smatch porownaj;
 
     if(!plik.good())
@@ -295,7 +289,7 @@ bool sprawdzPlik(string& nazwaPlikuWejsciowego){
         poprawnedane=true;
         for(int numerLinii = 1; getline(plik, linia); numerLinii++)
             {
-                if(!regex_search(linia,porownaj,kod))
+                if(!regex_match(linia,porownaj,kod))
                 {
                     cout<<"Niepoprawna linia "<<numerLinii<<":"<<endl<<linia<<endl;
                     poprawnedane= false; 
@@ -306,6 +300,7 @@ bool sprawdzPlik(string& nazwaPlikuWejsciowego){
     return poprawnedane;
 }
 
+/* Wywołanie instrukcji */
 void instrukcja()
 {
     cout
@@ -318,6 +313,7 @@ void instrukcja()
 }
 
 //1 = ok; 2= -h; 3= zle argumenty; 4= za duzo arg; 5=generuj plik
+/* Pobierz argumenty z konsolki */
 int pobierzArgumenty(int argc, char* argv[], string& nazwaPlikuWejsciowego, int& ile)
 {
     int ok = 0;

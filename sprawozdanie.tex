@@ -246,7 +246,7 @@ Zagadnienie przedstawia problem sortowania planu zajęć zapisanych w pliku wej�
 
 \subsection{Struktury danych}
 \marginpar{}
-W programie wykorzystano listę podwieszaną. Lista nadrzędna przechowuje informacje o nazwisku prowadzącego. Lista nadrzędna zawiera wskaźnik na drzewo binarne, które przechowuje informacje o godzinie, dniu, grupie i przedmiocie. Drzewo posortowane jest według daty tj. dnia i godziny. Taka struktura umożliwia łatwe posortowanie i wypisanie planu każdego prowadzącego.
+W programie wykorzystano listę podwieszaną. Lista nadrzędna przechowuje informację z \texttt{nazwiskiem prowadzącego}. Lista nadrzędna zawiera wskaźnik na drzewo binarne, które przechowuje informacje o \texttt{godzinie}, \texttt{dniu}, \texttt{grupie} i \texttt{przedmiocie}. Drzewo posortowane jest według \texttt{daty tj. dnia i godziny}. Taka struktura umożliwia łatwe posortowanie i wypisanie planu każdego prowadzącego.
 
 \begin{figure}
 \centering
@@ -374,23 +374,26 @@ Szczegółowy opis typów i funkcji zawarty jest w załączniku.
 
 Program testuje poprawność pliku przy użyciu \texttt{wyrażeń regularnych}. \\
 Spacje traktowane są jako osobny znak. W \texttt{C++} należy stosować podwójny ukośnik wsteczny \lstinline|\\|. Dane nie spełniającego podanego warunku zostaną wypisane w konsoli, ale sam program nie zostanie wykonany. \newline \newline
-\begin{tabular}{ll}
-\tiny \verb/^([01]\d|2[0-3]):([0-5]\d)-([01]\d|2[0-3]):([0-5]\d) (pn|wt|sr|cz|pt|sb|nd) (gr[1-9]) ([A-Z][a-z]+) ([A-Z][a-z]+)$/  
-\end{tabular} \newline
+\noindent \path{^(\s*|[ \t]*([01]\d|2[0-3]):([0-5]\d)-([01]\d|2[0-3]):([0-5]\d)[ \t]+(pn|wt|sr|cz|pt|sb|nd)[ \t]+(gr[1-9])[ \t]+([A-Z][a-z]*)[ \t]+([A-Z]([a-z]|[A-Z])*)\s*)$}
+\newline
 
 \begin{tabular}{ll}
 	\toprule
-	\verb/^/                       & początek linii    \\
-	\verb/[01]\d/                  & cyfra z zakresu 0-1 i cyfra  \\
-	\verb/|/             & lub         \\
-	\verb/2[0-3]/                    & 2 z przodu i cyfra z zakresu 0-3            \\
-	\verb/:/             & dwukropek                    \\
-	\verb/[0-5]\d/                     & cyfra z zakresu 0-5 i cyfra                     \\
-	\verb/-/ 				& myślnik \\
+	\verb/^/                      & początek linii    \\
+	\verb/\s*/ 			& biały znak 0 lub więcej razy            \\
+	\verb/|/             		& lub         \\
+	\verb/[ \t]*/             	& spacja bądź tabulator 0 lub więcej razy         \\
+	\verb/[01]\d/               & cyfra z zakresu 0-1 i cyfra  \\
+	\verb/2[0-3]/               & 2 z przodu i cyfra z zakresu 0-3            \\
+	\verb/:/            		& dwukropek                    \\
+	\verb/[0-5]\d/             & cyfra z zakresu 0-5 i cyfra                     \\
+	\verb/-/ 			& myślnik \\
+	\verb/[ \t]+/		& spacja bądź tabulator conajmniej raz	\\
 	\verb/(pn|wt|sr|cz|pt|sb|nd)/         & odpowiedni dzień \\
-	\verb/(gr[1-9])/                     & grupa i cyfra z zakresu 1-9                    \\
-	\verb/([A-Z][a-z]+)/ & słowo rozpoczynające się wielką literą             \\
-	\verb/$/ 			& koniec linii             \\
+	\verb/(gr[1-9])/                     	& grupa i cyfra z zakresu 1-9                    \\
+	\verb/([A-Z][a-z]+)/ 	& słowo rozpoczynające się wielką literą             \\
+	\verb/([A-Z]([a-z]|[A-Z])*)/ 		& słowo rozpoczynające się wielką literą i dowolne litery	\\
+	\verb/$/ 			& koniec linii            \\
 	\bottomrule
 	                            &
 \end{tabular}

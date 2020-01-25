@@ -15,11 +15,11 @@ dokumentacja.pdf : sprawozdanie.pdf refman.pdf
 	pdftk sprawozdanie.pdf ./latex/refman.pdf cat output dokumentacja.pdf
 
 # kompilacja sprawozdania:
-sprawozdanie.pdf : sprawozdanie.tex
-	pdflatex sprawozdanie
-	bibtex   sprawozdanie
-	pdflatex sprawozdanie
-	pdflatex sprawozdanie
+#sprawozdanie.pdf : sprawozdanie.tex
+#	pdflatex sprawozdanie
+#	bibtex   sprawozdanie
+#	pdflatex sprawozdanie
+#	pdflatex sprawozdanie
 
 # kompilacja dokumentacji
 refman.pdf : $(zrodla)/struktury.h $(zrodla)/funkcje.h Doxyfile

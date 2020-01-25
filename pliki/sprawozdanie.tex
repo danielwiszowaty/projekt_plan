@@ -5,7 +5,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\documentclass[12pt,a4paper,twoside]{article}
+\documentclass[12pt,a4paper,oneside]{article}
 
 \usepackage{amsmath,amssymb}
 \usepackage[utf8]{inputenc}                                      
@@ -51,9 +51,9 @@
 \pagestyle{fancy}
 \renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
 \fancyhf{} % usuwanie bieżących ustawień
-\fancyhead[LE,RO]{\small\bfseries\thepage}
-\fancyhead[LO]{\small\bfseries\rightmark}
-\fancyhead[RE]{\small\bfseries\leftmark}
+\fancyhead[L,R]{\small\bfseries\thepage}
+\fancyhead[L]{\small\bfseries\rightmark}
+\fancyhead[R]{\small\bfseries\leftmark}
 \renewcommand{\headrulewidth}{0.5pt}
 \renewcommand{\footrulewidth}{0pt}
 \addtolength{\headheight}{0.5pt} % pionowy odstęp na kreskę
@@ -291,7 +291,7 @@ W programie wykorzystano listę podwieszaną. Lista nadrzędna przechowuje infor
 
 
 \end{tikzpicture}
-\caption{Przykład listy podwieszanej. \newline
+\indent \caption{Przykład listy podwieszanej. \newline
 Dla elementu \texttt{A} zostały dodane liczby w kolejności 15, 12, 17, 16}
 \label{fig:lista_podwieszana}
 \end{figure} 
@@ -299,7 +299,7 @@ Dla elementu \texttt{A} zostały dodane liczby w kolejności 15, 12, 17, 16}
 
 \subsection{Algorytmy}
 \marginpar{}
-Program sortuje zajęcia poprzez umieszczenie ich w drzewie binarnym. Wypisanie zajęć realizowane jest przez rekurencyjne przejście przez drzewo. Wypisanie planu dla każdego prowadzącego realizowane jest przez rekurencyjne przejście przez listę i wypisanie odpowiadającego mu drzewa.
+Program sortuje zajęcia poprzez umieszczenie ich w drzewie binarnym. Wypisanie zajęć realizowane jest przez rekurencyjne przejście przez drzewo. Wypisanie planu dla każdego prowadzącego realizowane jest przez rekurencyjne przejście przez listę i wypisanie odpowiadającego mu drzewa. \cite{id:PPK}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -319,7 +319,7 @@ Przykładowe wywołanie programu:
 \end{verbatim}
 
 Program zapisuje plan zajęć w pliku tekstowym w folderze zewnętrznym \texttt{pliki}. Plik tekstowy dla każdego prowadzącego jest nazwany nazwiskiem prowadzącego.
-Pliki wejściowe mogą mieć dowolne rozszerzenie (lub go nie mieć.).
+Pliki wejściowe mogą mieć dowolne rozszerzenie (lub go nie mieć).
 
 \begin{verbatim}
 ./main 
@@ -329,15 +329,15 @@ powoduje wyświetlenie krótkiej pomocy. Instrukcja wyświetlania jest również
 
 \begin{verbatim}
 ./main -g plik ilośćwierszy
-\end{verbatim}
-Uruchomienie programu z parametrem \texttt{-g} powoduje wygenerowanie pliku \texttt{plik.txt} w folderze \texttt{pliki} zawierający losowy plan zajęć o zadanej przez użytkownika ilości wierszy który następnie można posortować. Gdy generowanie się powiedzie na ekranie pojawi się komunikat:
+\end{verbatim}  \phantom{} 
+\indent Uruchomienie programu z parametrem \texttt{-g} powoduje wygenerowanie pliku \texttt{plik.txt} w folderze \texttt{pliki} zawierający losowy plan zajęć o zadanej przez użytkownika ilości wierszy który następnie można posortować. Gdy generowanie się powiedzie na ekranie pojawi się komunikat:
 \begin{verbatim}
 Wygenerowano plik <plik.txt> w folderze pliki
-\end{verbatim}. \newline
-Uruchomienie programu z nieprawidłowymi parametrami powoduje wyświetlenie komunikatu
+\end{verbatim}  \phantom{} 
+\indent Uruchomienie programu z nieprawidłowymi parametrami powoduje wyświetlenie komunikatu
 \begin{verbatim}
 Podano zle argumenty do programu!
-\end{verbatim}
+\end{verbatim} \phantom{} 
 i wyświetlenie pomocy. \newline 
 
 Podanie nieprawidłowej nazwy pliku powoduje wyświetlenie odpowiedniego komunikatu:
@@ -392,13 +392,14 @@ Spacje traktowane są jako osobny znak. W \texttt{C++} należy stosować podwój
 	\verb/(pn|wt|sr|cz|pt|sb|nd)/         & odpowiedni dzień \\
 	\verb/(gr[1-9])/                     	& grupa i cyfra z zakresu 1-9                    \\
 	\verb/([A-Z][a-z]+)/ 	& słowo rozpoczynające się wielką literą             \\
-	\verb/([A-Z]([a-z]|[A-Z])*)/ 		& słowo rozpoczynające się wielką literą i dowolne litery	\\
+	\verb/([A-Z]([a-z]|[A-Z])*)/ 		& słowo rozpoczynające się wielką literą \\
+						&i dowolne litery	\\
 	\verb/$/ 			& koniec linii            \\
 	\bottomrule
 	                            &
 \end{tabular}
 
-Program został sprawdzony pod kątem wycieków pamięci przy użyciu biblioteki NVWA.
+Program został sprawdzony pod kątem wycieków pamięci przy użyciu biblioteki \texttt{nvwa} i \texttt{-fsanitize=leak} (biblioteki Clang).
 
 %\section{Uzyskane wyniki}
 %Jeżeli zadanie tego wymaga, wyniki można przestawić w~różny sposób, np. w tabeli ({\it vide} tabela \ref{tab:1}), czy na~rysunku ({\it vide} rycina \ref{fig:rysunek}) albo po prostu opisać uzyskane wyniki.
@@ -412,12 +413,13 @@ Program do sortowania planu zajęć nie był programem trudnym, ale kluczowe by�
 
  
 \begin{filecontents}{bibliografia.bib}
-
+@misc{id:PPK,
+title = {Wykłady z podstaw programowania komputer\'ow},
+author = {Krzysztof Simiński},
 }
+
 \end{filecontents}
 
-
-\cite{id:Cormen2001Wprowadzenie}.
 
 \bibliographystyle{plplain}
 \bibliography{bibliografia}

@@ -21,9 +21,9 @@ bool mniejsza(const Zajecia & pLewy, const Zajecia & pPrawy)
         return false;
     else // dni takie same, porownujemy godziny
     {
-        if(pLewy.PoczatekZajec.Godzinka < pPrawy.PoczatekZajec.Godzinka)
+        if(pLewy.PoczatekZajec.Godzina < pPrawy.PoczatekZajec.Godzina)
             return true;
-        else if(pLewy.PoczatekZajec.Godzinka > pPrawy.PoczatekZajec.Godzinka)
+        else if(pLewy.PoczatekZajec.Godzina > pPrawy.PoczatekZajec.Godzina)
             return false;
         else // godziny poczatkowe takie same, porownujemy minuty
         {
@@ -33,9 +33,9 @@ bool mniejsza(const Zajecia & pLewy, const Zajecia & pPrawy)
                 return false;
             else // minuty takie same, porownujemy godziny konca zajec
             {
-                if(pLewy.KoniecZajec.Godzinka < pPrawy.KoniecZajec.Godzinka)
+                if(pLewy.KoniecZajec.Godzina < pPrawy.KoniecZajec.Godzina)
                   return true;
-                else if(pLewy.KoniecZajec.Godzinka > pPrawy.KoniecZajec.Godzinka)
+                else if(pLewy.KoniecZajec.Godzina > pPrawy.KoniecZajec.Godzina)
                   return false;
                 else // godziny koncowe takie same, porownujemy minuty
                 {
@@ -104,7 +104,7 @@ Prowadzacy* dodajProwadzacegoNaKoniecListy (Prowadzacy*& pGlowaListyProwadzacych
 }
 
 /* Funkcja dodająca zajęcia do drzewa binarnego */
-void DodajZajeciaProwadzacemu (Zajecia*& pKorzen, Godzina& PoczatekZajec, Godzina& KoniecZajec, Dzien& DzienZajec, string& grupa, string& przedmiot)
+void DodajZajeciaProwadzacemu (Zajecia*& pKorzen, Czas& PoczatekZajec, Czas& KoniecZajec, Dzien& DzienZajec, string& grupa, string& przedmiot)
 {
     auto pNowy = new Zajecia {PoczatekZajec, KoniecZajec, DzienZajec, grupa, przedmiot, nullptr, nullptr};
     
@@ -148,9 +148,9 @@ void wypiszZajeciaProwadzacego(Zajecia* pKorzen, ofstream& strumien){
     if (pKorzen)
     {
 	   wypiszZajeciaProwadzacego(pKorzen->pLewy, strumien);
-       strumien<<setw(2)<<setfill('0')<<pKorzen->PoczatekZajec.Godzinka<<
+       strumien<<setw(2)<<setfill('0')<<pKorzen->PoczatekZajec.Godzina<<
             ":"<<setw(2)<<setfill('0')<<pKorzen->PoczatekZajec.Minuta<<
-            "-"<<setw(2)<<setfill('0')<<pKorzen->KoniecZajec.Godzinka<<
+            "-"<<setw(2)<<setfill('0')<<pKorzen->KoniecZajec.Godzina<<
             ":"<<setw(2)<<setfill('0')<<pKorzen->KoniecZajec.Minuta<<
             " "<<enumNaString(pKorzen->DzienZajec)<<
             " "<<pKorzen->Grupa<<
@@ -202,7 +202,7 @@ void usunWszystko(Prowadzacy*& pGlowaListyProwadzacych){
     }
 }
 /* Funkcja tworząca element listy o takim samym nazwisku a następnie przypisuje mu zajęcia */
-void wczytajZajeciaProwadzacemu(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot){
+void wczytajZajeciaProwadzacemu(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Czas PoczatekZajec, Czas KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot){
     Prowadzacy* p = znajdzProwadzacegoRekurencyjnie(pGlowaListyProwadzacych, nazwisko);
         if (not p)
         p = dodajProwadzacegoNaKoniecListy(pGlowaListyProwadzacych, nazwisko);
@@ -222,15 +222,15 @@ bool odczytajZPliku(Prowadzacy*& pGlowaListyProwadzacych, string& nazwaPlikuWejs
 		}
 		else
 		{
-    		Godzina PoczatekZajec {0,0};
-            Godzina KoniecZajec {0,0};
+    		Czas PoczatekZajec {0,0};
+            Czas KoniecZajec {0,0};
             string DzienZajec = "";
             string grupa = "";
             string nazwisko = "";
             string przedmiot = "";
     		char znak = 0;
     			
-    		while (plik >> PoczatekZajec.Godzinka >> znak >> PoczatekZajec.Minuta >> znak >> KoniecZajec.Godzinka >> znak >> KoniecZajec.Minuta >> DzienZajec >> grupa >> nazwisko >> przedmiot)
+    		while (plik >> PoczatekZajec.Godzina >> znak >> PoczatekZajec.Minuta >> znak >> KoniecZajec.Godzina >> znak >> KoniecZajec.Minuta >> DzienZajec >> grupa >> nazwisko >> przedmiot)
     			wczytajZajeciaProwadzacemu(pGlowaListyProwadzacych, nazwisko, PoczatekZajec, KoniecZajec, stringNaEnum(DzienZajec), grupa, przedmiot);
     			
 		}

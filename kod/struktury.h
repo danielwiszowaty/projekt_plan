@@ -18,15 +18,15 @@ enum Dzien{
     nd
 };
 /** Struktura reprezentująca godzinę */
-struct Godzina {
-    int Godzinka; ///<
+struct Czas {
+    int Godzina; ///<
     int Minuta;
 };
 
 /** Węzeł drzewa poszukiwań binarnych */
 struct Zajecia{
-    Godzina PoczatekZajec; ///< godzina początku zajęć przechowywana w węźle
-    Godzina KoniecZajec;   ///< godzina końca zajęć przechowywana w węźle
+    Czas PoczatekZajec; ///< godzina początku zajęć przechowywana w węźle
+    Czas KoniecZajec;   ///< godzina końca zajęć przechowywana w węźle
     Dzien DzienZajec;      ///< dzien przechowywany w węźle
     string Grupa;          ///< grupa przechowywana w węźle
     string Przedmiot;      ///< przedmioty przechowywany w węźle

@@ -1,9 +1,10 @@
-
- 
-kompilator=g++
+kompilator=clang++
+#kompilator=g++
 standard=-std=c++14
 optymalizacja=-O3
 errors=-pedantic-errors
+#address=-fsanitize=address
+leak=-fsanitize=leak
 # optymalizacja=
 # debug=-g
 debug=
@@ -15,14 +16,14 @@ __ : main
 	
 	
 main : main.o funkcje.o 
-	$(kompilator) $(standard) $(debug) $(optymalizacja) -pedantic-errors -o $@ $^ 
+	$(kompilator) $(standard) $(address) $(leak) $(debug) $(optymalizacja) -pedantic-errors -o $@ $^ 
 	            
 
 main.o : main.cpp
-	$(kompilator) $(standard) $(debug) $(optymalizacja) $(errors) -c -o $@ $^ 
+	$(kompilator) $(standard) $(address) $(leak) $(debug) $(optymalizacja) $(errors) -c -o $@ $^ 
 	            
 funkcje.o : funkcje.cpp
-	$(kompilator) $(standard) $(debug) $(optymalizacja) $(errors) -c -o $@ $^ 
+	$(kompilator) $(standards) $(address) $(leak) $(debug) $(optymalizacja) $(errors) -c -o $@ $^ 
 	
 	
 clean : 	

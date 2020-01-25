@@ -1,6 +1,7 @@
 /** @file */
 
 #include <string>
+#include "struktury.h"
 
 
 using namespace std;
@@ -48,7 +49,7 @@ Prowadzacy* dodajProwadzacegoNaKoniecListy (Prowadzacy*& pGlowaListyProwadzacych
 @param grupa grupa która ma być wstawiona
 @param przedmiot przedmiot który ma być wstawiony
 */
-void dodajZajeciaProwadzacemu (Zajecia*& pKorzen, Godzina& PoczatekZajec, Godzina& KoniecZajec, Dzien& DzienZajec, string& grupa, string& przedmiot);
+void dodajZajeciaProwadzacemu (Zajecia*& pKorzen, Czas& PoczatekZajec, Czas& KoniecZajec, Dzien& DzienZajec, string& grupa, string& przedmiot);
 
 /** Funkcja wypisuje rekurencyjnie drzewo do danego strumienia.
 @param pKorzen korzeń drzewa z którego elementy mają być wypisane
@@ -79,7 +80,7 @@ void usunWszystko(Prowadzacy*& pGlowaListyProwadzacych);
 @param grupa grupa która ma być wstawiona
 @param przedmiot przedmiot który ma być wstawiony
 */
-void wczytajZajeciaProwadzacemu(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Godzina PoczatekZajec, Godzina KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot);
+void wczytajZajeciaProwadzacemu(Prowadzacy*& pGlowaListyProwadzacych, string nazwisko, Czas PoczatekZajec, Czas KoniecZajec, Dzien DzienZajec, string grupa, string przedmiot);
 
 /** Funkcja wczytuje zajęcia z pliku do struktury
 @param pGlowaListyProwadzacych element do którego dodawane są elementy

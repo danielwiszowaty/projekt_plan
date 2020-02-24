@@ -3,8 +3,8 @@ kompilator=clang++
 standard=-std=c++14
 optymalizacja=-O3
 errors=-pedantic-errors
-#address=-fsanitize=address
-leak=-fsanitize=leak
+address=-fsanitize=address
+leak=-fno-omit-frame-pointer
 # optymalizacja=
 # debug=-g
 debug=

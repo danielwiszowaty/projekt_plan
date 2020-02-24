@@ -1,7 +1,6 @@
 Opis repozytorium:
 /kod/ pliki .cpp/.h/makefile
 /pliki_txt/ pliki .txt wygenerowane przez program główny
-/nvwa/ folder służący do sprawdzania wycieków
 
 
 Opis zadania:
